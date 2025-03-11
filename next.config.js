@@ -8,6 +8,13 @@ const nextConfig = {
     },
     optimizeCss: true // Enable CSS optimization
   },
+  // Fix CSS preload warnings
+  onDemandEntries: {
+    // Keep unused pages in memory for longer
+    maxInactiveAge: 60 * 60 * 1000, // 1 hour
+    // Number of pages to keep in memory
+    pagesBufferLength: 5,
+  },
   images: {
     remotePatterns: [
       {

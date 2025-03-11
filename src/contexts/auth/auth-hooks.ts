@@ -54,7 +54,7 @@ export function useTabVisibility() {
  * @param timeoutMs Timeout in milliseconds
  * @returns Loading state and functions to control it
  */
-export function useLoadingWithTimeout(initialState = false, timeoutMs = 8000) {
+export function useLoadingWithTimeout(initialState = false, timeoutMs = 15000) {
   const [loading, setLoading] = useState(initialState)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   
@@ -130,26 +130,36 @@ export function useInitialSession() {
         
         setUser(session.user)
         
-        // Wait for profile to be loaded before setting loading to false
-        try {
-          const profile = await fetchProfile(session.user.id)
-          if (profile) {
-            authLogger.info('Profile loaded:', {
-              userId: profile.id,
-              isAdmin: profile.is_admin,
-              navy_rank: profile.navy_rank
-            })
-            setProfile(profile)
-          } else {
-            authLogger.warn('No profile returned during initial session check')
+        // Set user state immediately
+        setUser(session.user)
+        
+        // Start profile fetch in background
+        const profilePromise = fetchProfile(session.user.id)
+          .then(profile => {
+            if (profile) {
+              authLogger.info('Profile loaded:', {
+                userId: profile.id,
+                isAdmin: profile.is_admin,
+                navy_rank: profile.navy_rank
+              })
+              setProfile(profile)
+              return true
+            } else {
+              authLogger.warn('No profile returned during initial session check')
+              // Create a minimal profile with just the user ID to allow the flow to continue
+              setProfile(createMinimalProfile(session.user.id, session.user))
+              return false
+            }
+          })
+          .catch(error => {
+            authLogger.error('Profile load failed:', error)
             // Create a minimal profile with just the user ID to allow the flow to continue
             setProfile(createMinimalProfile(session.user.id, session.user))
-          }
-        } catch (error) {
-          authLogger.error('Profile load failed:', error)
-          // Create a minimal profile with just the user ID to allow the flow to continue
-          setProfile(createMinimalProfile(session.user.id, session.user))
-        }
+            return false
+          })
+        
+        // Wait for profile fetch to complete
+        await profilePromise
       } else {
         authLogger.info('No session found')
         userIdRef.current = null
@@ -280,26 +290,27 @@ export function useAuthStateChange(
           
           // Only fetch profile for sign in or if we don't have a profile yet
           if (isRealSignIn || !profile || isPasswordRecovery) {
-            try {
-              authLogger.info('Fetching profile for user:', session.user.id)
-              const newProfile = await fetchProfile(session.user.id)
-              
-              if (newProfile) {
-                authLogger.info('Profile loaded during auth change:', {
-                  userId: newProfile.id,
-                  hasNavyRank: !!newProfile.navy_rank_url
-                })
-                setProfile(newProfile)
-              } else {
-                authLogger.warn('No profile returned during auth change')
+            // Start profile fetch in background
+            authLogger.info('Fetching profile for user:', session.user.id)
+            fetchProfile(session.user.id)
+              .then(newProfile => {
+                if (newProfile) {
+                  authLogger.info('Profile loaded during auth change:', {
+                    userId: newProfile.id,
+                    hasNavyRank: !!newProfile.navy_rank_url
+                  })
+                  setProfile(newProfile)
+                } else {
+                  authLogger.warn('No profile returned during auth change')
+                  // Create a minimal profile with just the user ID to allow the flow to continue
+                  setProfile(createMinimalProfile(session.user.id, session.user))
+                }
+              })
+              .catch(error => {
+                authLogger.error('Profile load failed during auth change:', error)
                 // Create a minimal profile with just the user ID to allow the flow to continue
                 setProfile(createMinimalProfile(session.user.id, session.user))
-              }
-            } catch (error) {
-              authLogger.error('Profile load failed during auth change:', error)
-              // Create a minimal profile with just the user ID to allow the flow to continue
-              setProfile(createMinimalProfile(session.user.id, session.user))
-            }
+              })
           }
         } else if (isRealSignOut) {
           authLogger.info('Processing sign out')

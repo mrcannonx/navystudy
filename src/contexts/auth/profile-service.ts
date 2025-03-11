@@ -3,6 +3,23 @@ import type { Profile } from './types'
 import { supabase } from '@/lib/supabase'
 import { NAVY_RANKS, type NavyRank } from '@/constants/navy'
 
+// Performance monitoring utility
+const measurePerformance = <T>(operation: string, fn: (...args: any[]) => Promise<T>): ((...args: any[]) => Promise<T>) => {
+  return async (...args: any[]) => {
+    const startTime = performance.now();
+    try {
+      const result = await fn(...args);
+      const duration = performance.now() - startTime;
+      console.log(`[Performance] ${operation} took ${duration.toFixed(2)}ms`);
+      return result;
+    } catch (error) {
+      const duration = performance.now() - startTime;
+      console.error(`[Performance] ${operation} failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
+    }
+  };
+};
+
 export async function updateUserClaims(user: User): Promise<void> {
   // This function appears to be imported but not used in the original context
   // Keeping it as a placeholder in case it's needed for future use
@@ -26,7 +43,8 @@ function checkCacheAge() {
   }
 }
 
-export async function fetchProfile(userId: string): Promise<Profile | null> {
+// Original function
+async function _fetchProfile(userId: string): Promise<Profile | null> {
   try {
     console.log('[ProfileService] Fetching profile for user:', userId);
     
@@ -249,7 +267,8 @@ export async function fetchProfile(userId: string): Promise<Profile | null> {
   }
 }
 
-export async function updateProfile(userId: string, profileData: Partial<Profile>): Promise<Profile> {
+// Original function
+async function _updateProfile(userId: string, profileData: Partial<Profile>): Promise<Profile> {
   console.log('[ProfileService] Starting profile update for user:', userId, 'with data:', profileData)
   
   const dbUpdateData: any = { ...profileData }
@@ -338,14 +357,15 @@ export async function updateProfile(userId: string, profileData: Partial<Profile
       throw new Error('Profile update returned no data');
     }
 
-    return await enrichProfileData(updatedProfile);
+    return await _enrichProfileData(updatedProfile);
   } catch (error) {
     console.error('[ProfileService] Profile update failed:', error);
     throw error;
   }
 }
 
-async function enrichProfileData(profile: Profile): Promise<Profile> {
+// Original function
+async function _enrichProfileData(profile: Profile): Promise<Profile> {
   // Fetch navy rank data separately if navy_rank_id exists
   let activeChevron = null;
   if (profile.navy_rank_id) {
@@ -468,3 +488,8 @@ async function enrichProfileData(profile: Profile): Promise<Profile> {
   
   return enrichedProfile
 }
+
+// Export the performance-monitored versions of functions
+export const fetchProfile = measurePerformance('fetchProfile', _fetchProfile);
+export const updateProfile = measurePerformance('updateProfile', _updateProfile);
+const enrichProfileData = measurePerformance('enrichProfileData', _enrichProfileData);

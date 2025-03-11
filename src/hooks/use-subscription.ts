@@ -6,8 +6,25 @@ import { useAuth } from '@/contexts/auth'
 
 // Cache time in milliseconds (5 minutes)
 const CACHE_TIME = 5 * 60 * 1000
-// Debounce time in milliseconds (500ms)
-const DEBOUNCE_TIME = 500
+// Debounce time in milliseconds (increased from 500ms to 1000ms to reduce API calls)
+const DEBOUNCE_TIME = 1000
+
+// Performance monitoring utility
+const measurePerformance = <T>(operation: string, fn: (...args: any[]) => Promise<T>): ((...args: any[]) => Promise<T>) => {
+  return async (...args: any[]) => {
+    const startTime = performance.now();
+    try {
+      const result = await fn(...args);
+      const duration = performance.now() - startTime;
+      console.log(`[Performance] ${operation} took ${duration.toFixed(2)}ms`);
+      return result;
+    } catch (error) {
+      const duration = performance.now() - startTime;
+      console.error(`[Performance] ${operation} failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
+    }
+  };
+};
 
 // Keep a global cache of the subscription data
 interface SubscriptionCache {
@@ -52,8 +69,8 @@ export function useSubscription() {
   const [error, setError] = useState<Error | null>(null)
   const isMounted = useRef(true)
   
-  // Function to fetch subscription data
-  const fetchSubscriptionData = useCallback(async (): Promise<UserSubscription | null> => {
+  // Base function to fetch subscription data
+  const _fetchSubscriptionData = useCallback(async (): Promise<UserSubscription | null> => {
     try {
       console.log('[useSubscription] Fetching subscription data', {
         userId: user?.id,
@@ -74,6 +91,12 @@ export function useSubscription() {
       throw err
     }
   }, [user?.id])
+  
+  // Wrapped version with performance monitoring
+  const fetchSubscriptionData = useCallback(
+    measurePerformance('fetchSubscriptionData', _fetchSubscriptionData),
+    [_fetchSubscriptionData]
+  )
 
   // Debounced fetch function
   const debouncedFetch = useCallback(
