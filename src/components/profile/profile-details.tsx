@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Mail, Anchor, Loader2, Save } from "lucide-react"
 import { NAVY_RANKS, NAVY_RATES } from "@/constants/navy"
+import type { NavyRank, NavyRate } from "@/constants/navy"
 import type { ProfileDetailsProps } from "@/types/profile"
 
 export function ProfileDetails({
@@ -57,15 +58,15 @@ export function ProfileDetails({
                 <Label htmlFor="rank">Rank</Label>
                 <Select
                   value={formData.rank}
-                  onValueChange={(value: typeof NAVY_RANKS[number]) => setFormDataAction(prev => ({ ...prev, rank: value }))}
+                  onValueChange={(value: NavyRank | "") => setFormDataAction(prev => ({ ...prev, rank: value }))}
                 >
                   <SelectTrigger className="bg-gray-50">
                     <SelectValue placeholder="Select rank" />
                   </SelectTrigger>
                   <SelectContent>
                     {NAVY_RANKS.map((rank) => (
-                      <SelectItem key={rank} value={rank}>
-                        {rank}
+                      <SelectItem key={rank.code} value={rank.code}>
+                        {rank.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -75,7 +76,7 @@ export function ProfileDetails({
                 <Label htmlFor="rate">Rate</Label>
                 <Select
                   value={formData.rate}
-                  onValueChange={(value: typeof NAVY_RATES[number]) => setFormDataAction(prev => ({ ...prev, rate: value }))}
+                  onValueChange={(value: NavyRate | "") => setFormDataAction(prev => ({ ...prev, rate: value }))}
                 >
                   <SelectTrigger className="bg-gray-50">
                     <SelectValue placeholder="Select rate" />
