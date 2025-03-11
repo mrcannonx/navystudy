@@ -1,4 +1,13 @@
 {
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": "https://navystudy.vercel.app",
+    "NEXTAUTH_URL": "https://navystudy.vercel.app"
+  },
   "crons": [
     {
       "path": "/api/cron/check-streaks",
@@ -27,6 +36,48 @@
           "value": "Bearer 8e873c1e7905a0a033aa667dc0837ad352cf714708e36d652cc6ef4574f04daa"
         }
       ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
     }
-  ]
-} 
+  ],
+  "rewrites": [
+    {
+      "source": "/v1/:path*",
+      "destination": "/api/v1/:path*"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/login",
+      "destination": "/auth",
+      "permanent": true
+    }
+  ],
+  "github": {
+    "silent": true,
+    "autoJobCancelation": true
+  }
+}
