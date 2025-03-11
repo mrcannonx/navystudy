@@ -1,0 +1,3 @@
+[functions.hello-world]
+verify_jwt = false
+no_auth = true 

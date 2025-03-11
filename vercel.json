@@ -1,0 +1,32 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/check-streaks",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/education/refresh?key=$DATA_REFRESH_API_KEY",
+      "schedule": "0 2 * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/cron/check-streaks",
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer 8e873c1e7905a0a033aa667dc0837ad352cf714708e36d652cc6ef4574f04daa"
+        }
+      ]
+    },
+    {
+      "source": "/api/education/refresh",
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer 8e873c1e7905a0a033aa667dc0837ad352cf714708e36d652cc6ef4574f04daa"
+        }
+      ]
+    }
+  ]
+} 

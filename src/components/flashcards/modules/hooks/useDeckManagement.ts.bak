@@ -1,0 +1,274 @@
+"use client"
+
+import { useState, useEffect } from 'react'
+import { useAuth } from '@/contexts/auth'
+import { useToast } from '@/components/ui/use-toast'
+import { supabase } from '@/lib/supabase'
+import { FlashcardDeck, FlashcardDeckDB, StudyResults } from '@/types/flashcard'
+import { handleError } from '@/lib/error-handler'
+import { ToastProps } from '@/components/ui/use-toast'
+import { StudyMetrics } from '@/hooks/use-study-analytics'
+import * as api from '../api/supabase'
+
+export function useDeckManagement() {
+    const { user } = useAuth()
+    const { toast } = useToast()
+    const [loading, setLoading] = useState(true)
+    const [decks, setDecks] = useState<FlashcardDeck[]>([])
+
+    useEffect(() => {
+        if (user) {
+            fetchDecks()
+        }
+    }, [user])
+
+    const fetchDecks = async () => {
+        if (!user) return;
+
+        try {
+            setLoading(true);
+            const { data: decksData, error } = await supabase
+                .from("flashcards")
+                .select("*")
+                .filter('user_id', 'eq', user.id)
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            const parsedDecks: FlashcardDeck[] = decksData.map((deck: FlashcardDeckDB) => ({
+                id: deck.id,
+                userId: deck.user_id,
+                name: deck.name,
+                title: deck.title,
+                description: deck.description,
+                cards: deck.cards || [],
+                createdAt: new Date(deck.created_at).getTime(),
+                updatedAt: new Date(deck.updated_at).getTime(),
+                pendingOperations: [],
+                mastered_cards: deck.mastered_cards,
+                total_cards: deck.total_cards,
+                last_studied_at: deck.last_studied_at,
+                completedCount: deck.completed_count,
+                currentCycle: deck.current_cycle || 1,
+                shownCardsInCycle: deck.shown_cards_in_cycle || [],
+                progress: deck.progress || {
+                    completedCount: 0,
+                    lastStudied: new Date().toISOString(),
+                    currentCycle: 1,
+                    shownCardsInCycle: [],
+                    studiedCardIds: []
+                }
+            }));
+
+            setDecks(parsedDecks);
+        } catch (err) {
+            handleError(err, { toast: { toast } });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleComplete = async (deckId: string, results: StudyResults) => {
+        if (!user) return;
+
+        try {
+            // Get the current deck and calculate new completed count
+            const currentDeck = decks.find(d => d.id === deckId);
+            if (!currentDeck) throw new Error('Deck not found');
+
+            const newCompletedCount = (currentDeck.completedCount || 0) + results.correctAnswers;
+            
+            // Update deck with progress stored in the JSON column
+            const { error } = await supabase
+                .from("flashcards")
+                .update({
+                    cards: results.cards,
+                    last_studied_at: new Date().toISOString(),
+                    completed_count: newCompletedCount,
+                    current_cycle: currentDeck.currentCycle,
+                    shown_cards_in_cycle: currentDeck.shownCardsInCycle,
+                    // Add the new progress JSON field
+                    progress: {
+                        completedCount: newCompletedCount,
+                        lastStudied: new Date().toISOString(),
+                        currentCycle: currentDeck.currentCycle || 1,
+                        shownCardsInCycle: currentDeck.shownCardsInCycle || [],
+                        studiedCardIds: currentDeck.progress?.studiedCardIds || []
+                    }
+                })
+                .filter('id', 'eq', deckId)
+                .filter('user_id', 'eq', user.id);
+
+            if (error) throw error;
+
+            // Update local state
+            setDecks(prevDecks =>
+                prevDecks.map(d => {
+                    if (d.id === deckId) {
+                        return {
+                            ...d,
+                            cards: results.cards,
+                            last_studied_at: new Date().toISOString(),
+                            completedCount: newCompletedCount,
+                            currentCycle: currentDeck.currentCycle,
+                            shownCardsInCycle: currentDeck.shownCardsInCycle,
+                            progress: {
+                                completedCount: newCompletedCount,
+                                lastStudied: new Date().toISOString(),
+                                currentCycle: currentDeck.currentCycle || 1,
+                                shownCardsInCycle: currentDeck.shownCardsInCycle || [],
+                                studiedCardIds: currentDeck.progress?.studiedCardIds || []
+                            }
+                        };
+                    }
+                    return d;
+                })
+            );
+
+            // Record flashcard study sessions in the study_sessions table
+            console.log("FLASHCARD-DEBUG: About to record flashcard study sessions for deck:", deckId);
+            
+            // Calculate average time spent per card
+            const avgTimePerCard = results.studyDuration
+                ? Math.round(results.studyDuration / results.cards.length)
+                : 60; // Default to 60 seconds if no duration provided
+            
+            // Only record sessions for cards that were actually studied in this session
+            let recordedSessions = 0;
+            
+            // Get the cards that were actually studied in this session
+            // We need to filter the cards to only include those that were actually studied
+            const studiedCards = results.cards.filter(card =>
+                card.id && card.confidence !== undefined && card.confidence > 0
+            );
+            
+            console.log(`FLASHCARD-DEBUG: Found ${studiedCards.length} cards with confidence ratings in this session`);
+            
+            // Only process cards that were actually studied
+            for (const card of studiedCards) {
+                if (card.id && card.confidence !== undefined) {
+                    try {
+                        await api.recordFlashcardSession(
+                            user.id,
+                            card.id,
+                            deckId, // Pass the deck ID
+                            {
+                                timeSpent: avgTimePerCard,
+                                questionsAnswered: 1,
+                                correctAnswers: card.confidence >= 3 ? 1 : 0, // Consider ratings 3+ as correct
+                                confidenceRating: card.confidence
+                            }
+                        );
+                        recordedSessions++;
+                    } catch (recordError) {
+                        console.error("FLASHCARD-DEBUG: Error recording session for card:", card.id, recordError);
+                    }
+                }
+            }
+            
+            console.log(`FLASHCARD-DEBUG: Successfully recorded ${recordedSessions} flashcard study sessions`);
+            
+            // If no sessions were recorded, log a warning
+            if (recordedSessions === 0) {
+                console.warn("FLASHCARD-DEBUG: No flashcard study sessions were recorded. Check if cards have confidence ratings.");
+            }
+
+        } catch (err) {
+            handleError(err, { toast: { toast } });
+        }
+    };
+
+    const handleDeleteDeck = async (deckId: string) => {
+        if (!user) return;
+
+        try {
+            // First verify the deck exists and belongs to the user
+            const { data: deck, error: fetchError } = await supabase
+                .from("flashcards")
+                .select("id")
+                .filter('id', 'eq', deckId)
+                .filter('user_id', 'eq', user.id)
+                .single();
+
+            if (fetchError) {
+                console.error('Error fetching deck:', fetchError);
+                throw new Error(`Failed to fetch deck: ${fetchError.message}`);
+            }
+            if (!deck) {
+                console.error('Deck not found:', { deckId, userId: user.id });
+                throw new Error(`Deck not found with ID: ${deckId}`);
+            }
+
+            // Delete the flashcard using explicit filter
+            const { error: deleteError } = await supabase
+                .from("flashcards")
+                .delete()
+                .filter('id', 'eq', deckId)
+                .filter('user_id', 'eq', user.id);
+
+            if (deleteError) {
+                console.error('Error deleting deck:', deleteError);
+                throw new Error(`Failed to delete deck: ${deleteError.message}`);
+            }
+
+            setDecks(prevDecks => prevDecks.filter(d => d.id !== deckId));
+
+            toast({
+                title: "Success",
+                description: "Deck has been deleted",
+            });
+        } catch (err) {
+            handleError(err, { toast: { toast } });
+        }
+    };
+
+    const handleResetStats = async (deckId: string) => {
+        if (!user) return;
+
+        try {
+            await api.resetDeckProgress(deckId, user.id);
+            
+            // Update local state after reset
+            setDecks(prevDecks => 
+                prevDecks.map(d => {
+                    if (d.id === deckId) {
+                        return {
+                            ...d,
+                            completedCount: 0,
+                            last_studied_at: new Date().toISOString(),
+                            currentCycle: 1,
+                            shownCardsInCycle: [],
+                            progress: {
+                                completedCount: 0,
+                                lastStudied: new Date().toISOString(),
+                                currentCycle: 1,
+                                shownCardsInCycle: [],
+                                studiedCardIds: []
+                            },
+                            cards: d.cards.map(card => ({
+                                ...card,
+                                confidence: 0
+                            }))
+                        };
+                    }
+                    return d;
+                })
+            );
+
+            toast({
+                title: "Success",
+                description: "Deck progress has been reset",
+            });
+        } catch (err) {
+            handleError(err, { toast: { toast } });
+        }
+    };
+
+    return {
+        decks,
+        loading,
+        handleComplete,
+        handleDeleteDeck,
+        handleResetStats
+    };
+}

@@ -1,0 +1,34 @@
+I'll regenerate the Navy Evaluation Template Builder with the additional features you've requested.
+
+I've redesigned the Navy Evaluation Template Builder to include all the requested features. Here's what's been added:
+
+### 1. Brag Sheet Integration
+- Added a dedicated "Brag Sheet" panel on the right sidebar
+- Displays year-round accomplishment entries with dates, descriptions, and metrics
+- Each entry shows relevant achievements that can be added directly to the evaluation
+- One-click transfer of brag sheet entries to the appropriate evaluation section
+- Visual indication of which entries have already been added
+
+### 2. AI-Powered Enhancement
+- New AI Enhancement panel on the left sidebar
+- Shows examples of weak statements and their improved versions
+- Highlights the type of enhancement applied (metrics added, stronger verbs, etc.)
+- "Analyze Current Section" button to request AI analysis of the current draft
+- Quick access "Enhance with AI" button in the main editor
+
+### 3. Custom Metrics Library
+- Streamlined metrics panel on the right sidebar
+- Organized by evaluation section (displays metrics relevant to current section)
+- Search functionality to quickly find appropriate metrics
+- One-click addition of metrics to evaluation text
+- Option to create custom metrics for personal use
+
+### 4. Improved UI Organization
+- Feature toggle buttons at the top to show/hide each tool as needed
+- Responsive layout that works on various screen sizes
+- Color-coding for different features (blue for metrics, purple for AI, green for brag sheet)
+- Maintained the core evaluation editor with tabs for editing, preview, and guidance
+
+Each of these features is designed to work together seamlessly, helping sailors transform their year-round accomplishments into powerful, quantifiable evaluation statements with appropriate Navy terminology and metrics.
+
+Would you like me to explain any specific aspect of the updated design in more detail?

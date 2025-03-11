@@ -1,0 +1,22 @@
+I'll create a React mockup for the Evaluation Template Builder feature of your Navy evaluation webapp:
+
+This Navy Evaluation Template Builder mockup provides a user-friendly interface for sailors to create tailored performance evaluations. Key features include:
+
+1. **Customization Controls** - Sailors can select their rank/rate, rating, role, and evaluation type to generate relevant templates
+
+2. **Progress Tracking** - Visual progress bar shows completion status across all evaluation sections
+
+3. **Section Navigation** - Easy navigation between the five key evaluation areas (Professional Knowledge, Military Bearing, etc.) with completion indicators
+
+4. **Multi-tab Interface**:
+   - Edit tab: For writing evaluation content with character limit tracking
+   - Preview tab: Shows how the complete evaluation will look
+   - Guidance tab: Provides section-specific writing tips and suggested action verbs
+
+5. **Navy-Specific Content** - Pre-populated with relevant examples and metrics based on the sailor's role and rating
+
+6. **Export Functionality** - Option to save templates and export as PDF
+
+The mockup demonstrates how sailors can quickly develop comprehensive evaluations with appropriate naval terminology and quantifiable achievements. The interface is designed to be intuitive while providing helpful guidance throughout the writing process.
+
+Would you like me to explain any specific aspect of the interface in more detail?

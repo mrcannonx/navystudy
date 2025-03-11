@@ -1,0 +1,207 @@
+/* Enhanced styles for the Award Points calculator page */
+
+/* Grid pattern background */
+.bg-grid-pattern {
+  background-image: url('/map-pattern.svg');
+  background-size: 40px 40px;
+}
+
+/* Card hover effects */
+.award-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.award-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Button animations */
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite;
+}
+
+@keyframes pulse-subtle {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Form element enhancements */
+.enhanced-input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.enhanced-input:focus {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Dark mode enhancements */
+.dark .bg-grid-pattern {
+  opacity: 0.05;
+}
+
+/* Fade-in animation for content */
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide-in animation for sections */
+.slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Icon pulse animation */
+.icon-pulse {
+  animation: iconPulse 2s infinite;
+}
+
+@keyframes iconPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Award Points color indicators */
+.points-excellent {
+  color: #4ade80; /* green-400 - brighter for better visibility on blue */
+}
+
+.points-good {
+  color: #93c5fd; /* blue-300 - lighter for better visibility on blue */
+}
+
+.points-warning {
+  color: #fcd34d; /* amber-300 - brighter for better visibility on blue */
+}
+
+.points-danger {
+  color: #fca5a5; /* red-300 - lighter for better visibility on blue */
+}
+
+/* Override for award dashboard */
+.award-dashboard .points-excellent,
+.award-dashboard .points-good,
+.award-dashboard .points-warning,
+.award-dashboard .points-danger {
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Award Dashboard enhancements */
+.award-dashboard {
+  color: white;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3), 0 8px 10px -6px rgba(37, 99, 235, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.radial-gradient {
+  background: radial-gradient(circle at 90% 90%, rgba(30, 58, 138, 0.9) 0%, transparent 60%);
+  mix-blend-mode: multiply;
+}
+
+/* Removed dot pattern */
+
+.dark .award-dashboard {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #4338ca 100%);
+}
+
+.stat-card {
+  transition: all 0.2s ease;
+  border-left: 10px solid transparent;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dark .stat-card {
+  background-color: #1f2937;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.stat-card-primary {
+  border-left-color: #3b82f6; /* Blue */
+}
+
+.stat-card-secondary {
+  border-left-color: #8b5cf6; /* Purple */
+}
+
+.stat-card-success {
+  border-left-color: #10b981; /* Green */
+}
+
+.stat-card-warning {
+  border-left-color: #f59e0b; /* Amber */
+}
+
+/* Award category styles */
+.award-category {
+  border-left: 3px solid #3b82f6;
+  transition: all 0.2s ease;
+}
+
+.award-category:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Checkbox styling */
+.award-checkbox {
+  accent-color: #3b82f6;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+}

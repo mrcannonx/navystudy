@@ -1,0 +1,48 @@
+I'm having issues with profile creation after user signup. Getting 400 (Bad Request) when trying to create profile and 406 (Not Acceptable) for settings queries.
+
+Here's my current implementation:
+
+1. Profile creation in auth-context.tsx:
+```typescript
+const { error: profileError } = await supabase
+  .from('profiles')
+  .upsert({
+    id: data.user.id,
+    email: data.user.email,
+    username: data.user.email,
+    full_name: data.user.email?.split('@')[0],
+    avatar_url: null,
+    bio: '',
+    preferences: {},
+    is_admin: false,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  })
+```
+
+2. Settings query in use-settings.ts:
+```typescript
+const { data: settings, error: fetchError } = await supabase
+  .from('user_settings')
+  .select()
+  .eq('user_id', user.id)
+  .maybeSingle()
+```
+
+3. My profiles table schema:
+```sql
+CREATE TABLE IF NOT EXISTS profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email TEXT,
+    username TEXT UNIQUE,
+    full_name TEXT,
+    avatar_url TEXT,
+    bio TEXT,
+    preferences JSONB DEFAULT '{}'::jsonb,
+    is_admin BOOLEAN DEFAULT false,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+What's the recommended way to handle profile and settings creation after user signup? Should I use a database trigger or handle it in the frontend? And what's the correct query format to avoid these errors? 

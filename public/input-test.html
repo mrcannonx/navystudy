@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Test Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #333;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .value-display {
+      margin-top: 5px;
+      font-size: 0.9em;
+      color: #666;
+    }
+    
+    .test-section {
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+    
+    .log-section {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Input Test Page</h1>
+  
+  <div class="test-section">
+    <h2>Standard HTML Inputs</h2>
+    
+    <div class="form-group">
+      <label for="text-input">Text Input:</label>
+      <input type="text" id="text-input" placeholder="Type something here...">
+      <div class="value-display">Value: <span id="text-input-value">(empty)</span></div>
+    </div>
+    
+    <div class="form-group">
+      <label for="textarea-input">Textarea:</label>
+      <textarea id="textarea-input" placeholder="Type something here..."></textarea>
+      <div class="value-display">Value: <span id="textarea-input-value">(empty)</span></div>
+    </div>
+    
+    <div class="form-group">
+      <label for="date-input">Date Input:</label>
+      <input type="date" id="date-input">
+      <div class="value-display">Value: <span id="date-input-value">(empty)</span></div>
+    </div>
+    
+    <div class="form-group">
+      <label for="number-input">Number Input:</label>
+      <input type="number" id="number-input" placeholder="Enter a number">
+      <div class="value-display">Value: <span id="number-input-value">(empty)</span></div>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Manual Event Handling</h2>
+    
+    <div class="form-group">
+      <label for="manual-input">Manual Input Handling:</label>
+      <input type="text" id="manual-input" placeholder="Type something here...">
+      <div class="value-display">Value: <span id="manual-input-value">(empty)</span></div>
+    </div>
+    
+    <div class="form-group">
+      <label for="manual-textarea">Manual Textarea Handling:</label>
+      <textarea id="manual-textarea" placeholder="Type something here..."></textarea>
+      <div class="value-display">Value: <span id="manual-textarea-value">(empty)</span></div>
+    </div>
+  </div>
+  
+  <button id="log-button">Log All Values</button>
+  
+  <div class="log-section">
+    <h3>Event Log</h3>
+    <div id="event-log"></div>
+  </div>
+  
+  <script>
+    // Function to log events
+    function logEvent(message) {
+      const logElement = document.getElementById('event-log');
+      const logEntry = document.createElement('div');
+      logEntry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+      logElement.appendChild(logEntry);
+      logElement.scrollTop = logElement.scrollHeight;
+    }
+    
+    // Standard input handling
+    document.getElementById('text-input').addEventListener('input', function(e) {
+      const value = e.target.value;
+      document.getElementById('text-input-value').textContent = value || '(empty)';
+      logEvent(`Text input changed: ${value}`);
+    });
+    
+    document.getElementById('textarea-input').addEventListener('input', function(e) {
+      const value = e.target.value;
+      document.getElementById('textarea-input-value').textContent = value || '(empty)';
+      logEvent(`Textarea changed: ${value}`);
+    });
+    
+    document.getElementById('date-input').addEventListener('input', function(e) {
+      const value = e.target.value;
+      document.getElementById('date-input-value').textContent = value || '(empty)';
+      logEvent(`Date input changed: ${value}`);
+    });
+    
+    document.getElementById('number-input').addEventListener('input', function(e) {
+      const value = e.target.value;
+      document.getElementById('number-input-value').textContent = value || '(empty)';
+      logEvent(`Number input changed: ${value}`);
+    });
+    
+    // Manual input handling
+    const manualInput = document.getElementById('manual-input');
+    const manualInputValue = document.getElementById('manual-input-value');
+    
+    manualInput.addEventListener('keydown', function(e) {
+      logEvent(`Manual input keydown: ${e.key}`);
+      
+      // If it's a printable character
+      if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+        // Get the current selection
+        const selectionStart = this.selectionStart || 0;
+        const selectionEnd = this.selectionEnd || selectionStart;
+        
+        // Create the new value
+        const newValue = this.value.slice(0, selectionStart) + e.key + this.value.slice(selectionEnd);
+        
+        // Update the input value
+        this.value = newValue;
+        
+        // Update the display
+        manualInputValue.textContent = newValue || '(empty)';
+        
+        // Update cursor position
+        setTimeout(() => {
+          this.selectionStart = selectionStart + 1;
+          this.selectionEnd = selectionStart + 1;
+        }, 0);
+        
+        // Prevent default
+        e.preventDefault();
+      }
+      // Handle backspace
+      else if (e.key === 'Backspace') {
+        const selectionStart = this.selectionStart || 0;
+        const selectionEnd = this.selectionEnd || selectionStart;
+        
+        // If there's a selection, delete it
+        if (selectionStart !== selectionEnd) {
+          const newValue = this.value.slice(0, selectionStart) + this.value.slice(selectionEnd);
+          this.value = newValue;
+        }
+        // Otherwise delete the character before the cursor
+        else if (selectionStart > 0) {
+          const newValue = this.value.slice(0, selectionStart - 1) + this.value.slice(selectionStart);
+          this.value = newValue;
+          
+          // Update cursor position
+          setTimeout(() => {
+            this.selectionStart = selectionStart - 1;
+            this.selectionEnd = selectionStart - 1;
+          }, 0);
+        }
+        
+        // Update the display
+        manualInputValue.textContent = this.value || '(empty)';
+        
+        // Prevent default
+        e.preventDefault();
+      }
+    });
+    
+    // Manual textarea handling
+    const manualTextarea = document.getElementById('manual-textarea');
+    const manualTextareaValue = document.getElementById('manual-textarea-value');
+    
+    manualTextarea.addEventListener('keydown', function(e) {
+      logEvent(`Manual textarea keydown: ${e.key}`);
+      
+      // If it's a printable character
+      if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+        // Get the current selection
+        const selectionStart = this.selectionStart || 0;
+        const selectionEnd = this.selectionEnd || selectionStart;
+        
+        // Create the new value
+        const newValue = this.value.slice(0, selectionStart) + e.key + this.value.slice(selectionEnd);
+        
+        // Update the textarea value
+        this.value = newValue;
+        
+        // Update the display
+        manualTextareaValue.textContent = newValue || '(empty)';
+        
+        // Update cursor position
+        setTimeout(() => {
+          this.selectionStart = selectionStart + 1;
+          this.selectionEnd = selectionStart + 1;
+        }, 0);
+        
+        // Prevent default
+        e.preventDefault();
+      }
+      // Handle backspace
+      else if (e.key === 'Backspace') {
+        const selectionStart = this.selectionStart || 0;
+        const selectionEnd = this.selectionEnd || selectionStart;
+        
+        // If there's a selection, delete it
+        if (selectionStart !== selectionEnd) {
+          const newValue = this.value.slice(0, selectionStart) + this.value.slice(selectionEnd);
+          this.value = newValue;
+        }
+        // Otherwise delete the character before the cursor
+        else if (selectionStart > 0) {
+          const newValue = this.value.slice(0, selectionStart - 1) + this.value.slice(selectionStart);
+          this.value = newValue;
+          
+          // Update cursor position
+          setTimeout(() => {
+            this.selectionStart = selectionStart - 1;
+            this.selectionEnd = selectionStart - 1;
+          }, 0);
+        }
+        
+        // Update the display
+        manualTextareaValue.textContent = this.value || '(empty)';
+        
+        // Prevent default
+        e.preventDefault();
+      }
+      // Handle enter for textarea
+      else if (e.key === 'Enter') {
+        const selectionStart = this.selectionStart || 0;
+        const selectionEnd = this.selectionEnd || selectionStart;
+        
+        // Create the new value with a newline
+        const newValue = this.value.slice(0, selectionStart) + '\n' + this.value.slice(selectionEnd);
+        
+        // Update the textarea value
+        this.value = newValue;
+        
+        // Update the display
+        manualTextareaValue.textContent = newValue || '(empty)';
+        
+        // Update cursor position
+        setTimeout(() => {
+          this.selectionStart = selectionStart + 1;
+          this.selectionEnd = selectionStart + 1;
+        }, 0);
+        
+        // Prevent default
+        e.preventDefault();
+      }
+    });
+    
+    // Log button
+    document.getElementById('log-button').addEventListener('click', function() {
+      const values = {
+        textInput: document.getElementById('text-input').value,
+        textareaInput: document.getElementById('textarea-input').value,
+        dateInput: document.getElementById('date-input').value,
+        numberInput: document.getElementById('number-input').value,
+        manualInput: document.getElementById('manual-input').value,
+        manualTextarea: document.getElementById('manual-textarea').value
+      };
+      
+      logEvent('All values: ' + JSON.stringify(values, null, 2));
+    });
+    
+    // Initial log
+    logEvent('Page loaded');
+  </script>
+</body>
+</html>

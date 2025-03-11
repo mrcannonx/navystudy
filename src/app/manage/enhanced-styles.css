@@ -1,0 +1,95 @@
+/* Enhanced styles for the manage page */
+
+/* Hero title animation */
+.hero-title {
+  background: linear-gradient(to right, #ffffff, #e0e7ff, #ffffff);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 6s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Icon pulse animation */
+.icon-pulse {
+  animation: icon-pulse 2s infinite;
+}
+
+@keyframes icon-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Grid background animation */
+.motion-safe\:animate-grid-fade {
+  animation: grid-fade 8s infinite;
+}
+
+@keyframes grid-fade {
+  0%, 100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.05;
+  }
+}
+
+/* Button subtle pulse animation */
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+  }
+}
+
+/* Card hover effects */
+.enhanced-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enhanced-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1);
+}
+
+/* Form input focus effects */
+.enhanced-input:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+/* Button glow effect */
+.hover\:shadow-glow:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
+}
+
+/* Dark mode adjustments */
+.dark .hero-title {
+  background: linear-gradient(to right, #ffffff, #93c5fd, #ffffff);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .hover\:shadow-glow:hover {
+  box-shadow: 0 0 15px rgba(147, 197, 253, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
+}
