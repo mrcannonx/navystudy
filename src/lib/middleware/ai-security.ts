@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { RateLimitError, ValidationError } from '@/lib/api/error-handling';
 import { SUMMARIZER_CONFIG } from '@/config/summarizer';
 import DOMPurify from 'isomorphic-dompurify';
-import { redis, getRateLimitInfo } from '@/lib/redis/client';
+import { memoryClient, getRateLimitInfo } from '@/lib/rate-limiter/memory-client';
 
 interface AISecurityConfig {
   maxRequestSize: number;
@@ -109,24 +109,24 @@ function getClientIp(req: NextRequest, trustProxy: boolean): string {
 // Rate limiting specifically for AI endpoints
 async function enforceAIRateLimit(ip: string, config: AISecurityConfig): Promise<void> {
   const key = `ai_rate_limit:${ip}`;
-  const now = Date.now();
 
   try {
-    const count = await redis.incr(key);
+    const count = await memoryClient.incr(key);
     
+    // Set expiration if this is a new key
     if (count === 1) {
-      await redis.expire(key, Math.floor(config.rateLimitWindowMs / 1000));
+      await memoryClient.expire(key, Math.floor(config.rateLimitWindowMs / 1000));
     }
-
+    
     if (count > config.maxRequestsPerWindow) {
-      const ttl = await redis.ttl(key);
+      const ttl = await memoryClient.ttl(key);
       throw new RateLimitError('AI rate limit exceeded', ttl);
     }
   } catch (error) {
     if (error instanceof RateLimitError) {
       throw error;
     }
-    console.error('Redis error:', error);
+    console.error('Rate limiting error:', error);
     throw new Error('Rate limiting service unavailable');
   }
 }
@@ -173,4 +173,4 @@ export function sanitizeStudyContent(content: {
     description: content.description ? DOMPurify.sanitize(content.description).trim() : undefined,
     material: DOMPurify.sanitize(content.material).trim(),
   };
-} 
+}
