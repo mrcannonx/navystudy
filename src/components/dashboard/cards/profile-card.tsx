@@ -53,9 +53,9 @@ export function ProfileCard({
             </div>
             <div className="px-4 py-3.5 flex-1 bg-white dark:bg-gray-900">
                 <div className="flex flex-col items-center -mt-12 h-full">
-                    <Avatar className="avatar-ring h-20 w-20 ring-4 ring-white dark:ring-gray-900 bg-blue-100">
+                    <Avatar className="avatar-ring h-20 w-20 ring-4 ring-white dark:ring-gray-900 bg-blue-100 overflow-hidden">
                         {avatarUrl ? (
-                            <AvatarImage src={avatarUrl} alt={name} />
+                            <AvatarImage src={avatarUrl} alt={name} className="object-cover" />
                         ) : (
                             <AvatarFallback className="text-xl font-semibold bg-gradient-to-br from-blue-500 to-blue-600 text-white">
                                 {initials}

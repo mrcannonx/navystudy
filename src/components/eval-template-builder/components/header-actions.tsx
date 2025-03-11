@@ -39,7 +39,8 @@ export const HeaderActions: React.FC<HeaderActionsProps> = ({
         <Button
           variant="outline"
           onClick={onCancelAction}
-          className="transition-all duration-200 hover:bg-gray-50"
+          className="transition-all duration-200 hover:bg-gray-50 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+          aria-label="Go back"
         >
           <X className="mr-2 h-4 w-4" />
           Back
@@ -47,14 +48,16 @@ export const HeaderActions: React.FC<HeaderActionsProps> = ({
         <Button
           variant="outline"
           onClick={onLoadAction}
-          className="transition-all duration-200 hover:bg-gray-50"
+          className="transition-all duration-200 hover:bg-gray-50 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+          aria-label="Load evaluation template"
         >
           <FolderOpen className="mr-2 h-4 w-4" />
           Load Evaluation
         </Button>
         <Button
           onClick={onSaveAction}
-          className="transition-all duration-200"
+          className="transition-all duration-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white"
+          aria-label="Save evaluation template"
         >
           <Save className="mr-2 h-4 w-4" />
           Save Evaluation

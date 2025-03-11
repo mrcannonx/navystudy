@@ -17,15 +17,17 @@ export const AdvancedOptionsToggle: React.FC<AdvancedOptionsToggleProps> = ({
   onLoadAdvancedDataAction
 }) => {
   return (
-    <div className="flex justify-between items-center mb-4 bg-gray-50 p-3 rounded-lg border border-gray-100">
+    <div className="flex justify-between items-center mb-4 bg-gray-50 dark:bg-gray-900/80 p-3 rounded-lg border border-gray-100 dark:border-gray-800 transition-all duration-200">
       <Button
         variant={showAdvanced ? "default" : "outline"}
         className={`text-sm font-medium flex items-center transition-all duration-200 ${
-          showAdvanced 
-            ? "bg-blue-600 text-white hover:bg-blue-700" 
-            : "text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+          showAdvanced
+            ? "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 dark:shadow-blue-900/30 dark:hover:shadow-blue-800/40"
+            : "text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-950/50 dark:border-blue-900/50"
         }`}
         onClick={onToggleAdvancedAction}
+        aria-label={showAdvanced ? "Hide advanced options" : "Show advanced options"}
+        aria-expanded={showAdvanced}
       >
         {showAdvanced ? (
           <>
@@ -45,8 +47,9 @@ export const AdvancedOptionsToggle: React.FC<AdvancedOptionsToggleProps> = ({
           <Button
             variant="outline"
             size="sm"
-            className="text-sm border-blue-200 text-blue-700 hover:bg-blue-50"
+            className="text-sm border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/40 dark:hover:text-blue-300 dark:hover:border-blue-700 transition-all duration-200"
             onClick={onLoadAdvancedDataAction}
+            aria-label="Load advanced data"
           >
             <Database className="mr-2 h-4 w-4" />
             Load Advanced Data

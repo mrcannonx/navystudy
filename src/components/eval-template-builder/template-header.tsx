@@ -214,7 +214,7 @@ export const TemplateHeader: React.FC<TemplateHeaderProps> = ({
   // Removed debugging logs
   
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 mb-6 transition-all duration-200">
+    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:bg-gradient-to-r dark:from-gray-900 dark:to-blue-900/20 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6 transition-all duration-200">
       <HeaderActions
         title={title}
         rank={rank}

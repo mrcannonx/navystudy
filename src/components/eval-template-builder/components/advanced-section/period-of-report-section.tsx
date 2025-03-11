@@ -73,7 +73,7 @@ export const PeriodOfReportSection: React.FC<PeriodOfReportSectionProps> = ({
 
   return (
     <div>
-      <h4 className="text-sm font-semibold mb-3 text-blue-600 border-b pb-1 flex items-center">
+      <h4 className="text-base font-semibold mb-4 text-blue-600 dark:text-blue-400 border-b-2 dark:border-gray-700 pb-2 flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
@@ -94,7 +94,7 @@ export const PeriodOfReportSection: React.FC<PeriodOfReportSectionProps> = ({
               handleDateChange('from', e.target.value);
             }}
             ref={fromInputRef}
-            className="border-blue-100 focus:border-blue-300 focus:ring-blue-200"
+            className="border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           />
         </div>
         
@@ -111,7 +111,7 @@ export const PeriodOfReportSection: React.FC<PeriodOfReportSectionProps> = ({
               handleDateChange('to', e.target.value);
             }}
             ref={toInputRef}
-            className="border-blue-100 focus:border-blue-300 focus:ring-blue-200"
+            className="border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           />
         </div>
       </div>

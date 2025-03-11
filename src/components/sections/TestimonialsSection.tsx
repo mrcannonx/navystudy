@@ -14,7 +14,7 @@ export function TestimonialsSection() {
       <Container>
         <div className="text-center mb-12 md:mb-16 animate-fadeIn">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-            Trusted by Navy Personnel
+            Designed for Navy Personnel
           </h2>
           <p className="text-xl text-muted-foreground max-w-[800px] mx-auto">
             See what your shipmates are saying about NAVY Study
@@ -72,11 +72,11 @@ export function TestimonialsSection() {
               </CardHeader>
               <CardContent>
                 <blockquote className="italic text-muted-foreground mb-4">
-                  "The study planner and flashcards made it easy to stay on track with my busy schedule. I recommend this to all my Sailors."
+                  "The summarizer and flashcards made it easy to stay on track with my busy schedule. I recommend this to all my Sailors."
                 </blockquote>
                 <div className="flex flex-wrap gap-2 mt-4">
                   <Badge variant="outline" className="bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800">
-                    Study Planner
+                    Summarizer
                   </Badge>
                   <Badge variant="outline" className="bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800">
                     Flashcards

@@ -6,6 +6,7 @@ export type StaticRoute =
   | '/about'
   | '/auth'
   | '/dashboard'
+  | '/dashboard-landing'
   | '/planner'
   | '/quiz'
   | '/flashcards'
@@ -34,6 +35,7 @@ export const routes = {
   
   // User routes
   dashboard: '/dashboard' satisfies StaticRoute,
+  dashboardLanding: '/dashboard-landing' satisfies StaticRoute,
   planner: '/planner' satisfies StaticRoute,
   quiz: '/quiz' satisfies StaticRoute,
   flashcards: '/flashcards' satisfies StaticRoute,

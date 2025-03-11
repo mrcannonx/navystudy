@@ -7,7 +7,7 @@ import { routes } from "@/lib/routes";
 
 const EnhancedEvalBuilderSection = () => {
   return (
-    <section className="relative py-16 overflow-hidden bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <section id="navy-evaluation-builder" className="relative py-16 overflow-hidden bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none">
         <Image

@@ -195,12 +195,6 @@ export default function EvalTemplateBuilderPage({ userId }: EvalTemplateBuilderP
     loadCustomMetrics,
     clearAllCustomMetrics
   } = useCustomMetrics(userId)
-  
-  // Note: We're now handling the initial loading of custom metrics in the TemplateProvider component
-  // This avoids duplicate calls to loadCustomMetrics
-  // useEffect(() => {
-  //   loadCustomMetrics()
-  // }, [])
 
   // Convert the currentTemplate to the format expected by EvaluationTemplateBuilder
   const templateData = convertTemplateToEvalData(currentTemplate);
@@ -220,7 +214,7 @@ export default function EvalTemplateBuilderPage({ userId }: EvalTemplateBuilderP
             />
 
             {isCreating || currentTemplate ? (
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
                 <EvaluationTemplateBuilder
                   initialData={templateData}
                   onSave={saveTemplate}

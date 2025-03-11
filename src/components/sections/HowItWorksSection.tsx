@@ -93,8 +93,8 @@ export function HowItWorksSection({ id }: HowItWorksSectionProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           <StepCard
             number={1}
-            title="Upload Your Materials"
-            description="Import your study materials or choose from our extensive library of Navy-specific content. Supports various formats including PDF, DOC, and TXT."
+            title="Your Study Materials"
+            description="Enter your study materials by pasting text directly into our system. You choose what you want to study and our system will take care of the rest."
             icon={<FileText size={32} />}
             isActive={activeStep === 0}
             delay={100}
@@ -112,7 +112,7 @@ export function HowItWorksSection({ id }: HowItWorksSectionProps) {
           <StepCard
             number={3}
             title="Study & Track Progress"
-            description="Study with our adaptive tools and track your progress with detailed analytics. Identify strengths and focus on areas that need improvement."
+            description="Study with our tools and track your progress with analytics. Identify strengths and focus on areas that need improvement. You are in control!"
             icon={<BarChart2 size={32} />}
             isActive={activeStep === 2}
             delay={500}

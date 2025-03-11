@@ -80,7 +80,7 @@ export function StudyToolsSection() {
   }
 
   return (
-    <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900">
+    <section id="advanced-study-tools" className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: -10 }}

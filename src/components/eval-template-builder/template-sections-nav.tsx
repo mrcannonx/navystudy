@@ -60,10 +60,10 @@ export const TemplateSectionsNav: React.FC<TemplateSectionsNavProps> = ({
   ];
 
   return (
-    <Card>
+    <Card className="dark:bg-gray-800 dark:border-gray-700">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle className="text-lg">Evaluation Sections</CardTitle>
+          <CardTitle className="text-lg dark:text-gray-100">Evaluation Sections</CardTitle>
           <div>
             <FeatureTooltip
               color="blue"
@@ -91,7 +91,7 @@ export const TemplateSectionsNav: React.FC<TemplateSectionsNavProps> = ({
             return (
               <button
                 key={key}
-                className={`flex items-center p-3 text-left border-b ${activeSection === key ? 'bg-blue-50 border-l-4 border-l-blue-600' : ''}`}
+                className={`flex items-center p-3 text-left border-b dark:border-gray-700 ${activeSection === key ? 'bg-blue-50 dark:bg-blue-900/30 border-l-4 border-l-blue-600' : ''} dark:text-gray-200`}
                 onClick={() => onSectionChangeAction(key)}
               >
                 {section.completed ? (

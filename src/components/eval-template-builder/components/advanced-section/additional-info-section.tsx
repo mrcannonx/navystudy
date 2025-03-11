@@ -27,7 +27,7 @@ export const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
 }) => {
   return (
     <div>
-      <h4 className="text-sm font-semibold mb-3 text-blue-600 border-b pb-1 flex items-center">
+      <h4 className="text-base font-semibold mb-4 text-blue-600 dark:text-blue-400 border-b-2 dark:border-gray-700 pb-2 flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -42,7 +42,7 @@ export const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
             value={physicalReadiness || ''}
             onChangeAction={(value) => onPhysicalReadinessChange && onPhysicalReadinessChange(value)}
             placeholder="Physical Readiness"
-            className="border-blue-100 focus:border-blue-300"
+            className="border-2 border-blue-200 focus:border-blue-500 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50"
           />
         </div>
         
@@ -51,7 +51,7 @@ export const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
           <Select value={billetSubcategory} onValueChange={onBilletSubcategoryChangeAction}>
             <SelectTrigger 
               id="billet-subcategory-select" 
-              className="w-full border-blue-100 focus:border-blue-300 focus:ring-blue-200"
+              className="w-full border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
             >
               <SelectValue placeholder="Select billet subcategory" />
             </SelectTrigger>

@@ -61,7 +61,7 @@ export const CounselingInfoSection: React.FC<CounselingInfoSectionProps> = ({
 
   return (
     <div>
-      <h4 className="text-sm font-semibold mb-3 text-blue-600 border-b pb-1 flex items-center">
+      <h4 className="text-base font-semibold mb-4 text-blue-600 dark:text-blue-400 border-b-2 dark:border-gray-700 pb-2 flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
@@ -76,7 +76,7 @@ export const CounselingInfoSection: React.FC<CounselingInfoSectionProps> = ({
             type="date"
             value={getDateValue()}
             onChange={handleDateChange}
-            className="border-blue-100 focus:border-blue-300 focus:ring-blue-200"
+            className="border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           />
         </div>
         
@@ -87,7 +87,7 @@ export const CounselingInfoSection: React.FC<CounselingInfoSectionProps> = ({
             value={getCounselorValue()}
             onChange={handleCounselorChange}
             placeholder="Counselor name"
-            className="border-blue-100 focus:border-blue-300 focus:ring-blue-200"
+            className="border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           />
         </div>
       </div>

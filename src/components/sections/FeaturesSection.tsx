@@ -1,7 +1,9 @@
 import { Container } from "@/components/ui/container"
-import { Brain, BarChart4, FileText, FileEdit, BookOpen, Calculator } from "lucide-react"
+import { Brain, BarChart4, FileText, FileEdit, BookOpen, Calculator, LayoutDashboard } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import Link from "next/link"
+import { routes } from "@/lib/routes"
 
 // Feature card component with hover effects and animations
 interface FeatureCardProps {
@@ -9,9 +11,10 @@ interface FeatureCardProps {
   title: string
   description: string
   delay: number
+  link?: string
 }
 
-function FeatureCard({ icon, title, description, delay }: FeatureCardProps) {
+function FeatureCard({ icon, title, description, delay, link }: FeatureCardProps) {
   const [isHovered, setIsHovered] = useState(false)
   
   return (
@@ -62,17 +65,7 @@ function FeatureCard({ icon, title, description, delay }: FeatureCardProps) {
         {description}
       </p>
       
-      {/* Learn more link that appears on hover */}
-      <div className={cn(
-        "mt-4 text-blue-600 dark:text-blue-400 font-medium flex items-center",
-        "opacity-0 group-hover:opacity-100 transition-opacity duration-300",
-        "transform translate-y-2 group-hover:translate-y-0 transition-transform"
-      )}>
-        <span>Learn more</span>
-        <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
+      {/* "Learn more" links have been removed as requested */}
     </div>
   )
 }
@@ -101,14 +94,15 @@ export function FeaturesSection() {
       description: "Create professional, impactful Navy evaluations with customizable templates and AI-powered enhancements."
     },
     {
-      icon: <BookOpen className="h-7 w-7" />,
-      title: "Resource Library",
-      description: "Access a comprehensive library of study materials organized by rating and exam type to streamline your preparation."
-    },
-    {
       icon: <Calculator className="h-7 w-7" />,
       title: "Advancement Calculators",
       description: "Accurately calculate your PMA, Award Points, and Final Multiple Score with our specialized advancement calculators."
+    },
+    {
+      icon: <LayoutDashboard className="h-7 w-7" />,
+      title: "Interactive Dashboard",
+      description: "Experience our powerful analytics dashboard that transforms complex data into actionable insights for better decision-making.",
+      link: routes.dashboardLanding
     }
   ]
 
@@ -160,6 +154,7 @@ export function FeaturesSection() {
               title={feature.title}
               description={feature.description}
               delay={index + 2}
+              link={feature.link}
             />
           ))}
         </div>
@@ -172,7 +167,7 @@ export function FeaturesSection() {
           <div className="py-10 px-6 max-w-3xl mx-auto">
             <h3 className="text-2xl font-bold mb-4">Ready to advance your Navy career?</h3>
             <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Join thousands of sailors who have accelerated their advancement with our comprehensive tools.
+              Be among the first to accelerate your advancement with our comprehensive tools.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

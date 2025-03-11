@@ -28,12 +28,12 @@ export const TemplateContentEditor: React.FC<TemplateContentEditorProps> = memo(
 
   return (
     <Tabs defaultValue="edit" className="w-full" id="template-content-tabs">
-      <TabsList className="mb-4">
-        <TabsTrigger value="edit">Edit</TabsTrigger>
-        <TabsTrigger value="preview">Preview</TabsTrigger>
-        <TabsTrigger value="guide">Guide</TabsTrigger>
-        <TabsTrigger value="scheduling">Scheduling</TabsTrigger>
-        <TabsTrigger value="planning">Notes</TabsTrigger>
+      <TabsList className="mb-4 dark:bg-gray-700">
+        <TabsTrigger value="edit" className="dark:data-[state=active]:bg-gray-800 dark:data-[state=active]:text-blue-300 dark:text-gray-200">Edit</TabsTrigger>
+        <TabsTrigger value="preview" className="dark:data-[state=active]:bg-gray-800 dark:data-[state=active]:text-blue-300 dark:text-gray-200">Preview</TabsTrigger>
+        <TabsTrigger value="guide" className="dark:data-[state=active]:bg-gray-800 dark:data-[state=active]:text-blue-300 dark:text-gray-200">Guide</TabsTrigger>
+        <TabsTrigger value="scheduling" className="dark:data-[state=active]:bg-gray-800 dark:data-[state=active]:text-blue-300 dark:text-gray-200">Scheduling</TabsTrigger>
+        <TabsTrigger value="planning" className="dark:data-[state=active]:bg-gray-800 dark:data-[state=active]:text-blue-300 dark:text-gray-200">Notes</TabsTrigger>
       </TabsList>
       
       <TabsContent value="edit">

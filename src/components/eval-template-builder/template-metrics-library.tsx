@@ -139,10 +139,10 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
   };
 
   return (
-    <Card className="border-blue-200">
-      <CardHeader className="bg-blue-50 border-b border-blue-100">
+    <Card className="border-blue-200 dark:border-blue-900">
+      <CardHeader className="bg-blue-50 dark:bg-blue-950/50 border-b border-blue-100 dark:border-blue-900">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-sm font-medium flex items-center text-blue-800">
+          <CardTitle className="text-sm font-medium flex items-center text-blue-800 dark:text-blue-300">
             <Database size={16} className="mr-2" />
             Custom Metrics Library
           </CardTitle>
@@ -181,15 +181,16 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
         {isAddingMetric ? (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">New Custom Metric</label>
+              <label className="block text-sm font-medium mb-1 dark:text-gray-200">New Custom Metric</label>
               <div className="flex gap-2">
                 <Input
                   value={newMetric}
                   onChange={(e) => setNewMetric(e.target.value)}
                   placeholder="Use ## as placeholder for numbers (e.g., '## tasks completed')"
+                  className="dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
                 />
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Use ## as a placeholder for numbers that will be filled in later.
               </p>
             </div>
@@ -206,10 +207,10 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
         ) : (
           <>
             <div className="mb-2">
-              <label className="text-xs text-gray-500 block mb-1">Search Metrics</label>
+              <label className="text-xs text-gray-500 dark:text-gray-400 block mb-1">Search Metrics</label>
               <input
                 type="text"
-                className="w-full border rounded p-1.5 text-sm"
+                className="w-full border rounded p-1.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
                 placeholder="Search by keyword..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -217,14 +218,14 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
             </div>
             
             {showGeneratedMetrics && (
-              <div className="mt-2 mb-3 border rounded-md p-3 bg-purple-50 border-purple-200">
+              <div className="mt-2 mb-3 border rounded-md p-3 bg-purple-50 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800">
                 <div className="flex justify-between items-center mb-2">
-                  <h4 className="text-sm font-medium text-purple-800 flex items-center">
+                  <h4 className="text-sm font-medium text-purple-800 dark:text-purple-300 flex items-center">
                     <Zap size={14} className="mr-1" />
                     AI-Generated Metrics
                   </h4>
                   <button
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                     onClick={() => setShowGeneratedMetrics(false)}
                   >
                     <X size={14} />
@@ -234,10 +235,10 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
                   {generatedMetrics.map((metric, index) => (
                     <div key={index} className="flex items-center">
                       <button
-                        className="text-left px-2 py-1 hover:bg-purple-100 rounded flex-grow flex items-center text-gray-700"
+                        className="text-left px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900/50 rounded flex-grow flex items-center text-gray-700 dark:text-gray-200"
                         onClick={() => handleAddMetric(metric)}
                       >
-                        <PlusCircle size={14} className="text-purple-600 mr-2 flex-shrink-0" />
+                        <PlusCircle size={14} className="text-purple-600 dark:text-purple-400 mr-2 flex-shrink-0" />
                         {metric}
                       </button>
                     </div>
@@ -247,7 +248,7 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
             )}
             
             <div className="text-sm">
-              <h3 className="font-medium text-blue-800 mb-1 mt-3">
+              <h3 className="font-medium text-blue-800 dark:text-blue-300 mb-1 mt-3">
                 {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)} Metrics
               </h3>
               <div className="space-y-1">
@@ -255,15 +256,15 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
                   filteredMetrics.map((metric, index) => (
                     <div key={index} className="flex items-center">
                       <button
-                        className="text-left px-2 py-1 hover:bg-blue-50 rounded flex-grow flex items-center text-gray-700"
+                        className="text-left px-2 py-1 hover:bg-blue-50 dark:hover:bg-blue-900/50 rounded flex-grow flex items-center text-gray-700 dark:text-gray-200"
                         onClick={() => handleAddMetric(metric)}
                       >
-                        <PlusCircle size={14} className="text-blue-600 mr-2 flex-shrink-0" />
+                        <PlusCircle size={14} className="text-blue-600 dark:text-blue-400 mr-2 flex-shrink-0" />
                         {metric}
                       </button>
                       {onDeleteMetricAction && (
                         <button
-                          className="p-1 hover:bg-red-50 rounded text-red-500"
+                          className="p-1 hover:bg-red-50 dark:hover:bg-red-900/30 rounded text-red-500 dark:text-red-400"
                           onClick={(e) => {
                             e.stopPropagation(); // Prevent triggering the parent button's onClick
                             e.preventDefault(); // Prevent any default behavior
@@ -280,7 +281,7 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
                     </div>
                   ))
                 ) : (
-                  <div className="text-gray-500 text-sm py-2 text-center">
+                  <div className="text-gray-500 dark:text-gray-400 text-sm py-2 text-center">
                     No metrics available for this section
                   </div>
                 )}
@@ -290,9 +291,9 @@ export const TemplateMetricsLibrary: React.FC<TemplateMetricsLibraryProps> = ({
         )}
       </CardContent>
       
-      <CardFooter className="bg-gray-50 py-2 px-3">
+      <CardFooter className="bg-gray-50 dark:bg-gray-900 py-2 px-3">
         <button
-          className="text-blue-700 text-xs hover:underline flex items-center w-full"
+          className="text-blue-700 dark:text-blue-400 text-xs hover:underline flex items-center w-full"
           onClick={() => setIsAddingMetric(true)}
         >
           <PlusCircle size={12} className="mr-1" />

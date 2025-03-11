@@ -40,7 +40,7 @@ export function CTASection({ user, scrollToHowItWorks }: CTASectionProps) {
             {/* Badge */}
             <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full bg-blue-500/30 border border-blue-400/30 backdrop-blur-sm">
               <BadgeCheck className="w-4 h-4 mr-2" />
-              <span className="text-sm font-medium">Trusted by thousands of sailors</span>
+              <span className="text-sm font-medium">Built for Navy sailors</span>
             </div>
             
             <h2
@@ -51,14 +51,14 @@ export function CTASection({ user, scrollToHowItWorks }: CTASectionProps) {
             </h2>
             
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-[700px] mx-auto leading-relaxed">
-              Join thousands of Navy personnel who are using NAVY Study to prepare for advancement exams
+              Start using NAVY Study to prepare for your advancement exams
             </p>
             
             {/* Social proof */}
             <div className="flex flex-wrap items-center justify-center gap-6 mb-10 text-blue-100">
               <div className="flex items-center">
                 <Users className="w-5 h-5 mr-2" />
-                <span>10,000+ Active Users</span>
+                <span>Personalized Study Tools</span>
               </div>
               <div className="flex items-center">
                 <div className="flex mr-2">
@@ -66,7 +66,7 @@ export function CTASection({ user, scrollToHowItWorks }: CTASectionProps) {
                     <Star key={i} className="w-4 h-4 fill-current text-yellow-300" />
                   ))}
                 </div>
-                <span>4.9/5 Rating</span>
+                <span>Covers All Navy Ratings</span>
               </div>
             </div>
             

@@ -17,12 +17,12 @@ const TemplateEditTabComponent: React.FC<EditTabProps> = ({
 }) => {
   if (!activeSection) {
     return (
-      <Card>
+      <Card className="dark:bg-gray-800 dark:border-gray-700">
         <CardHeader>
-          <CardTitle>No Section Selected</CardTitle>
+          <CardTitle className="dark:text-gray-100">No Section Selected</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Please select a section to edit.</p>
+          <p className="dark:text-gray-300">Please select a section to edit.</p>
         </CardContent>
       </Card>
     );
@@ -35,9 +35,9 @@ const TemplateEditTabComponent: React.FC<EditTabProps> = ({
   const characterLimit = sections[activeSection]?.characterLimit || 10000;
 
   return (
-    <Card>
+    <Card className="dark:bg-gray-800 dark:border-gray-700">
       <CardHeader>
-        <CardTitle>{sections[activeSection]?.title}</CardTitle>
+        <CardTitle className="dark:text-gray-100">{sections[activeSection]?.title}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
@@ -48,7 +48,7 @@ const TemplateEditTabComponent: React.FC<EditTabProps> = ({
             </div>
           )}
           <textarea
-            className="w-full h-64 p-3 border rounded"
+            className="w-full h-64 p-3 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             value={activeText}
             onChange={handleTextChange}
             onFocus={handleFocus}
@@ -58,7 +58,7 @@ const TemplateEditTabComponent: React.FC<EditTabProps> = ({
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <div className="flex items-center text-sm text-gray-500">
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
           <HelpCircle size={16} className="mr-1" />
           Use bullet points with metrics and quantifiable achievements
         </div>

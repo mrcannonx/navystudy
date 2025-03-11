@@ -71,14 +71,14 @@ export function HeroSection({ scrollToHowItWorks }: HeroSectionProps) {
           </div>
           
           <div className="relative hidden md:block">
-            <div className="relative h-[500px] w-full overflow-hidden rounded-lg shadow-2xl">
-              {/* Hero image */}
+            <div className="relative h-[500px] w-full overflow-hidden rounded-lg shadow-2xl group">
+              {/* Hero image with hover animation */}
               <Image
-                src="https://krfijvkfyngcofhnmfhe.supabase.co/storage/v1/object/public/homepage//homepagehero.png"
+                src="https://krfijvkfyngcofhnmfhe.supabase.co/storage/v1/object/public/homepage//hero.png"
                 alt="Navy advancement study platform"
                 fill
                 priority
-                className="object-cover object-center"
+                className="object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:rotate-1"
               />
             </div>
           </div>

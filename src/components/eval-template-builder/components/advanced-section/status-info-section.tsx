@@ -54,7 +54,7 @@ export const StatusInfoSection: React.FC<StatusInfoSectionProps> = ({
 
   return (
     <div>
-      <h4 className="text-sm font-semibold mb-3 text-blue-600 border-b pb-1 flex items-center">
+      <h4 className="text-base font-semibold mb-4 text-blue-600 dark:text-blue-400 border-b-2 dark:border-gray-700 pb-2 flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -76,7 +76,7 @@ export const StatusInfoSection: React.FC<StatusInfoSectionProps> = ({
                 });
               }
             }}
-            className="flex flex-wrap gap-4"
+            className="flex flex-wrap gap-4 p-2 bg-blue-50 dark:bg-blue-900/20 rounded-md border-2 border-blue-100 dark:border-blue-900"
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="act" id="act-radio" />
@@ -107,7 +107,7 @@ export const StatusInfoSection: React.FC<StatusInfoSectionProps> = ({
             value={uic || ''}
             onChangeAction={(value) => onUicChange && onUicChange(value)}
             placeholder="UIC"
-            className="border-blue-100 focus:border-blue-300"
+            className="border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           />
         </div>
       </div>
@@ -120,14 +120,14 @@ export const StatusInfoSection: React.FC<StatusInfoSectionProps> = ({
             value={shipStation || ''}
             onChangeAction={(value) => onShipStationChange && onShipStationChange(value)}
             placeholder="Ship/Station"
-            className="border-blue-100 focus:border-blue-300"
+            className="border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           />
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="promotion-status-select" className="text-sm font-medium">Promotion Status</Label>
           <Select value={promotionStatus} onValueChange={onPromotionStatusChangeAction}>
-            <SelectTrigger id="promotion-status-select" className="w-full border-blue-100 focus:border-blue-300">
+            <SelectTrigger id="promotion-status-select" className="w-full border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
               <SelectValue placeholder="Select promotion status" />
             </SelectTrigger>
             <SelectContent>
@@ -145,7 +145,7 @@ export const StatusInfoSection: React.FC<StatusInfoSectionProps> = ({
             type="date"
             value={dateReported || ''}
             onChangeAction={(value) => onDateReportedChange && onDateReportedChange(value)}
-            className="border-blue-100 focus:border-blue-300"
+            className="border-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-300/50 dark:focus:ring-blue-700/30 focus:ring-opacity-50 dark:border-gray-700 dark:focus:border-gray-600 dark:bg-gray-800 dark:text-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           />
         </div>
       </div>

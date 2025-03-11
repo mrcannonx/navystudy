@@ -113,21 +113,23 @@ export function Footer() {
           </div>
         </div>
         
-        <div className="border-t py-6 flex flex-col md:flex-row justify-between items-center">
-          <div className="flex flex-col md:flex-row items-center gap-4">
+        <div className="border-t py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} NAVY Study. All rights reserved.
             </p>
-            <div className="flex items-center bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 px-3 py-1.5 rounded-full border border-blue-200 dark:border-blue-700 shadow-sm">
+            
+            <div className="flex items-center bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 px-3 py-1.5 rounded-full border border-blue-200 dark:border-blue-700 shadow-sm mx-auto md:mx-0">
               <div className="bg-blue-600 dark:bg-blue-500 rounded-full p-1 mr-2">
                 <Medal className="h-3.5 w-3.5 text-white" />
               </div>
               <span className="text-xs font-semibold text-blue-700 dark:text-blue-300">Proud Veteran-Owned Business</span>
             </div>
+            
+            <p className="text-xs text-muted-foreground mt-2 md:mt-0">
+              Designed for U.S. Navy personnel. Not an official U.S. Navy website.
+            </p>
           </div>
-          <p className="text-xs text-muted-foreground mt-2 md:mt-0">
-            Designed for U.S. Navy personnel. Not an official U.S. Navy website.
-          </p>
         </div>
       </Container>
     </footer>

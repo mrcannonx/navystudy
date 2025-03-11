@@ -2,13 +2,8 @@
 
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { Plus, BarChart3, FileText, Settings, HelpCircle } from 'lucide-react'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Plus, FileText } from 'lucide-react'
+import { DarkModeToggle } from '../dark-mode-toggle'
 
 interface EnhancedPageHeaderProps {
   onCreateTemplateAction: () => void
@@ -26,7 +21,7 @@ export function EnhancedPageHeader({
   
   return (
     <div className="w-full max-w-[1400px] mx-auto mb-8">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-md">
@@ -41,17 +36,18 @@ export function EnhancedPageHeader({
           </div>
           
           <div className="flex items-center gap-3">
+            {/* Dark Mode Toggle */}
+            <DarkModeToggle />
+            
             {showNewButton && (
-              <>
-                <Button
-                  onClick={onCreateTemplateAction}
-                  className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 shadow-sm hover:shadow-md"
-                  size="lg"
-                >
-                  <Plus className="mr-2 h-5 w-5" />
-                  New Evaluation
-                </Button>
-              </>
+              <Button
+                onClick={onCreateTemplateAction}
+                className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 shadow-sm hover:shadow-md"
+                size="lg"
+              >
+                <Plus className="mr-2 h-5 w-5" />
+                New Evaluation
+              </Button>
             )}
           </div>
         </div>

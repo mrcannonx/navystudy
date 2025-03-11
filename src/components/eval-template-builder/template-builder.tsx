@@ -170,8 +170,6 @@ const TemplateBuilderContent: React.FC = () => {
     handlersHook.handleSectionChange(sectionKey);
   }, [handlersHook]);
 
-  // No longer needed - removed logging effect
-
   // Prepare template data for saving - memoized to avoid unnecessary recalculations
   const templateData = useMemo((): EvaluationTemplateData => {
     return {
@@ -417,8 +415,6 @@ const TemplateBuilderContent: React.FC = () => {
           onUpdateBragSheetEntryAction={updateBragSheetEntryAction}
           addToastAction={addToast}
         />
-
-        {/* User Notes Sidebar removed */}
       </div>
     </div>
   );

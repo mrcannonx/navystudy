@@ -288,8 +288,8 @@ export default function BragSheet({ entries, onAddEntryAction, onSelectEntryActi
   };
 
   return (
-    <Card className="border-green-200">
-      <CardHeader className="bg-green-50 border-b border-green-100 pb-3">
+    <Card className="border-green-200 dark:border-green-800/50">
+      <CardHeader className="bg-green-50 dark:bg-green-900/20 border-b border-green-100 dark:border-green-800/30 pb-3">
         <div className="flex justify-between items-center">
           <CardTitle className="text-sm font-medium flex items-center text-green-800">
             <Star size={16} className="mr-2" />
@@ -352,9 +352,9 @@ export default function BragSheet({ entries, onAddEntryAction, onSelectEntryActi
         )}
       </CardContent>
       
-      <CardFooter className="bg-gray-50 py-2 px-3">
-        <button 
-          className="text-green-700 text-xs hover:underline flex items-center w-full"
+      <CardFooter className="bg-gray-50 dark:bg-gray-800/50 py-2 px-3">
+        <button
+          className="text-green-700 dark:text-green-400 text-xs hover:underline flex items-center w-full"
           onClick={() => setIsAdding(true)}
         >
           <PlusCircle size={12} className="mr-1" />

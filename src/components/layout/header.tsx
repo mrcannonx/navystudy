@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { routes } from "@/types/routes"
+import { routes } from "@/lib/routes"
 import type { Route } from "next"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth"
@@ -122,15 +122,31 @@ export function Header() {
                   </Link>
                 )
               } else {
-                // For non-authenticated users, render as plain text
+                // For non-authenticated users, link to relevant homepage sections
+                const getHomepageSectionLink = () => {
+                  switch(item.name) {
+                    case "Flashcards":
+                    case "Quiz":
+                    case "Summarizer":
+                      return `${routes.home}#advanced-study-tools`;
+                    case "Eval Builder":
+                      return `${routes.home}#navy-evaluation-builder`;
+                    case "Resources":
+                      return `${routes.home}#advancement-calculators`;
+                    default:
+                      return routes.home;
+                  }
+                };
+                
                 return (
-                  <div
+                  <Link
                     key={item.name}
-                    className="text-foreground/60 flex items-center gap-2"
+                    href={getHomepageSectionLink() as Route<string>}
+                    className="text-foreground/60 flex items-center gap-2 hover:text-foreground/80 transition-colors"
                   >
                     <item.icon className="h-4 w-4 text-primary" />
                     {item.name}
-                  </div>
+                  </Link>
                 )
               }
             })}
@@ -145,10 +161,11 @@ export function Header() {
                   variant="ghost"
                   className="relative h-8 w-8 rounded-full p-0"
                 >
-                  <Avatar>
-                    <AvatarImage 
-                      src={profile?.avatar_url || undefined} 
-                      alt={profile?.full_name || user.email || "User"} 
+                  <Avatar className="overflow-hidden">
+                    <AvatarImage
+                      src={profile?.avatar_url || undefined}
+                      alt={profile?.full_name || user.email || "User"}
+                      className="object-cover"
                     />
                     <AvatarFallback className="bg-primary text-primary-foreground">
                       {getInitial(profile?.full_name)}
@@ -159,10 +176,11 @@ export function Header() {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem key="profile" asChild>
                   <Link href={routes.profile as Route<'/profile'>} className="cursor-pointer">
-                    <Avatar className="mr-2 h-4 w-4">
-                      <AvatarImage 
+                    <Avatar className="mr-2 h-4 w-4 overflow-hidden">
+                      <AvatarImage
                         src={profile?.avatar_url || undefined}
                         alt={profile?.full_name || user.email || "User"}
+                        className="object-cover"
                       />
                       <AvatarFallback className="text-xs">
                         {getInitial(profile?.full_name)}

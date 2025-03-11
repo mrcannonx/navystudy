@@ -59,8 +59,8 @@ export const TemplateAIEnhancer: React.FC<TemplateAIEnhancerProps> = ({
   };
   
   return (
-    <Card className="mt-6 border-purple-200">
-      <CardHeader className="bg-purple-50 border-b border-purple-100">
+    <Card className="mt-6 border-purple-200 dark:border-purple-800/50">
+      <CardHeader className="bg-purple-50 dark:bg-purple-900/20 border-b border-purple-100 dark:border-purple-800/30">
         <div className="flex justify-between items-center">
           <CardTitle className="text-sm font-medium flex items-center text-purple-800">
             <Zap size={16} className="mr-2" />
@@ -90,7 +90,7 @@ export const TemplateAIEnhancer: React.FC<TemplateAIEnhancerProps> = ({
       <CardContent className="p-3">
         <div className="space-y-3 text-sm">
           {showWarning && (
-            <div className="bg-amber-50 border border-amber-200 rounded p-2 text-amber-800 flex items-start">
+            <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded p-2 text-amber-800 dark:text-amber-300 flex items-start">
               <AlertTriangle size={16} className="mr-2 mt-0.5 flex-shrink-0" />
               <p>Please add content to the {capitalizeFirstLetter(activeSection)} section before enhancing.</p>
             </div>
@@ -103,7 +103,7 @@ export const TemplateAIEnhancer: React.FC<TemplateAIEnhancerProps> = ({
               {aiSuggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  className="border rounded p-2 cursor-pointer hover:bg-purple-50"
+                  className="border rounded p-2 cursor-pointer hover:bg-purple-50 dark:hover:bg-purple-900/30 dark:border-purple-800/50"
                   onClick={() => onApplySuggestionAction(suggestion)}
                 >
                   <div className="text-gray-500 mb-1 line-through">{suggestion.original}</div>
@@ -118,7 +118,7 @@ export const TemplateAIEnhancer: React.FC<TemplateAIEnhancerProps> = ({
           ) : (
             <div className="space-y-2">
               <p className="text-gray-600">No AI suggestions available yet.</p>
-              <div className="bg-blue-50 border border-blue-100 rounded p-2 text-blue-700 flex items-start">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/30 rounded p-2 text-blue-700 dark:text-blue-300 flex items-start">
                 <HelpCircle size={16} className="mr-2 mt-0.5 flex-shrink-0" />
                 <p>Use the "Enhance with AI" button in the content editor to generate suggestions.</p>
               </div>

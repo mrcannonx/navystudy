@@ -88,9 +88,9 @@ export function EnhancedTemplateList({
           const timeAgo = formatDistanceToNow(updatedAt, { addSuffix: true });
           
           return (
-            <Card 
-              key={template.id} 
-              className={`relative overflow-hidden template-card ${colorClass.gradient} ${colorClass.border} shadow-sm hover:shadow-md transition-all duration-300 after:absolute after:top-0 after:left-0 after:w-full after:h-1 ${colorClass.accent} after:rounded-t-lg`}
+            <Card
+              key={template.id}
+              className={`relative overflow-hidden template-card ${colorClass.gradient} ${colorClass.border} shadow-sm hover:shadow-md dark:shadow-gray-900/50 dark:hover:shadow-gray-900/70 transition-all duration-300 after:absolute after:top-0 after:left-0 after:w-full after:h-1 ${colorClass.accent} after:rounded-t-lg`}
             >
               <CardHeader className="pb-2">
                 <div className="flex items-start justify-between">
@@ -143,22 +143,22 @@ export function EnhancedTemplateList({
                 </div>
               </CardContent>
               
-              <CardFooter className="pt-2 pb-4 border-t border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-gray-900/20">
+              <CardFooter className="pt-2 pb-4 border-t border-gray-100 dark:border-gray-700/50 bg-white/50 dark:bg-gray-900/30">
                 <div className="flex justify-between w-full">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={() => onEditTemplateAction(template)}
-                    className="bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 transition-colors duration-200"
+                    className="bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700/90 transition-all duration-200 border-gray-200 dark:border-gray-700/70 text-gray-700 dark:text-gray-200"
                   >
                     <Edit className="mr-2 h-4 w-4" />
                     Edit
                   </Button>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     size="sm"
                     onClick={() => onDeleteTemplateAction(template.id)}
-                    className="text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                    className="text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30"
                   >
                     <Trash className="h-4 w-4" />
                   </Button>
@@ -169,32 +169,32 @@ export function EnhancedTemplateList({
         })}
         
         {/* Create New Template Card */}
-        <Card 
-          className="relative overflow-hidden template-card bg-gradient-to-br from-gray-50 to-white dark:from-gray-900/40 dark:to-gray-900 border-dashed border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-center items-center p-8 cursor-pointer"
+        <Card
+          className="relative overflow-hidden template-card bg-gradient-to-br from-gray-50 to-white dark:from-gray-900/40 dark:to-gray-900 border-dashed border-gray-200 dark:border-gray-700/50 shadow-sm hover:shadow-md dark:hover:shadow-gray-900/70 transition-all duration-300 flex flex-col justify-center items-center p-8 cursor-pointer"
           onClick={onCreateTemplateAction}
         >
-          <div className="p-4 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 mb-4">
+          <div className="p-4 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300 mb-4 shadow-sm dark:shadow-blue-900/20">
             <Plus className="h-8 w-8" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Create New Template</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-50 mb-2">Create New Template</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-300 text-center">
             Start building a new evaluation template
           </p>
         </Card>
       </div>
       
       {templateList.length === 0 && !loading && (
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-12 text-center">
-          <div className="mx-auto w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center mb-4">
+        <div className="bg-white dark:bg-gray-900/95 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700/50 p-12 text-center">
+          <div className="mx-auto w-16 h-16 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center mb-4 shadow-sm dark:shadow-blue-900/20">
             <FileText className="h-8 w-8" />
           </div>
-          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">No Evaluations Yet</h3>
-          <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-50">No Evaluations Yet</h3>
+          <p className="text-gray-500 dark:text-gray-300 mb-6 max-w-md mx-auto">
             Create your first evaluation template to get started. Templates help you quickly generate professional Navy evaluations.
           </p>
-          <Button 
-            onClick={onCreateTemplateAction} 
-            className="bg-blue-600 hover:bg-blue-700 text-white inline-flex items-center gap-2 px-6 py-3 rounded-lg transition-colors text-base font-medium"
+          <Button
+            onClick={onCreateTemplateAction}
+            className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white inline-flex items-center gap-2 px-6 py-3 rounded-lg transition-all duration-200 text-base font-medium shadow-sm hover:shadow-md"
           >
             <Plus className="h-5 w-5" />
             Create Your First Evaluation

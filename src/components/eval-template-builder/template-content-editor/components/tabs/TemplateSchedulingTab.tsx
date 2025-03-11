@@ -19,7 +19,7 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
 
   return (
     <Card className="border-0 shadow-md transition-all duration-300 hover:shadow-lg">
-      <CardHeader className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-t-lg border-b">
+      <CardHeader className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-t-lg border-b dark:border-gray-700">
         <div className="flex items-center justify-between">
           <CardTitle className="text-2xl font-bold tracking-tight flex items-center text-gray-900 dark:text-white">
             <CalendarIcon className="mr-2 h-6 w-6 text-blue-600 dark:text-blue-400" />
@@ -30,7 +30,7 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
               <TooltipTrigger asChild>
                 <InfoIcon className="h-5 w-5 text-blue-600 dark:text-blue-400 cursor-help" />
               </TooltipTrigger>
-              <TooltipContent className="max-w-md">
+              <TooltipContent className="max-w-md dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700">
                 <p>This schedule shows the standard Navy evaluation and FITREP timeline by rank and month.</p>
               </TooltipContent>
             </Tooltip>
@@ -41,9 +41,9 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
         <div className="border-t border-gray-200 dark:border-gray-800"></div>
         
         {/* Calendar Section */}
-        <div className="p-6">
+        <div className="p-6 dark:bg-gray-900">
           <div className="mb-6">
-            <div className="overflow-hidden border border-gray-200 rounded-lg shadow-md">
+            <div className="overflow-hidden border border-gray-200 dark:border-gray-700 rounded-lg shadow-md">
               {/* Table Header */}
               <div className="grid grid-cols-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-700">
                 <div className="p-4 text-center border-r border-gray-300 dark:border-gray-700 text-lg">MONTH</div>
@@ -55,11 +55,15 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
               {months.map((month, index) => (
                 <div 
                   key={month.name} 
-                  className={`grid grid-cols-3 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b border-gray-200 transition-colors duration-200 hover:bg-blue-50`}
+                  className={`grid grid-cols-3 ${
+                    index % 2 === 0 
+                      ? 'bg-white dark:bg-gray-900' 
+                      : 'bg-gray-50 dark:bg-gray-800'
+                  } border-b border-gray-200 dark:border-gray-700 transition-colors duration-200 hover:bg-blue-50 dark:hover:bg-blue-900/30`}
                 >
-                  <div className="p-4 text-center font-medium border-r border-gray-200">{month.name}</div>
-                  <div className="p-4 text-center border-r border-gray-200">{month.officer || ''}</div>
-                  <div className="p-4 text-center">{month.enlisted || ''}</div>
+                  <div className="p-4 text-center font-medium border-r border-gray-200 dark:border-gray-700 dark:text-gray-200">{month.name}</div>
+                  <div className="p-4 text-center border-r border-gray-200 dark:border-gray-700 dark:text-gray-200">{month.officer || ''}</div>
+                  <div className="p-4 text-center dark:text-gray-200">{month.enlisted || ''}</div>
                 </div>
               ))}
             </div>
@@ -75,18 +79,18 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
                 <Button
-                  className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg flex items-center gap-2 text-lg"
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg flex items-center gap-2 text-lg dark:bg-blue-700 dark:hover:bg-blue-600"
                 >
                   <BarChartIcon className="h-5 w-5" />
                   View Evaluation Timeline
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-5xl w-full">
+              <DialogContent className="max-w-5xl w-full dark:bg-gray-900 dark:border-gray-700">
                 <DialogHeader>
-                  <DialogTitle className="text-2xl font-bold text-center mb-4">
+                  <DialogTitle className="text-2xl font-bold text-center mb-4 dark:text-white">
                     Navy Evaluation Timeline
                   </DialogTitle>
-                  <DialogDescription className="text-center text-base">
+                  <DialogDescription className="text-center text-base dark:text-gray-300">
                     Visual representation of counseling and evaluation periods by rank
                   </DialogDescription>
                 </DialogHeader>
@@ -94,18 +98,18 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
                 {/* Timeline Modal Content */}
                 <div className="grid grid-cols-1 gap-6 mt-4">
                   {/* Counseling Timeline */}
-                  <div className="bg-blue-100 rounded-lg overflow-hidden shadow-md">
-                    <div className="bg-blue-600 text-white p-3 font-bold text-center text-xl">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg overflow-hidden shadow-md">
+                    <div className="bg-blue-600 dark:bg-blue-800 text-white p-3 font-bold text-center text-xl">
                       COUNSELING
                     </div>
                     <div className="grid grid-cols-[150px_1fr] gap-0">
                       {/* Left column for rank labels */}
-                      <div className="bg-blue-200 p-2">
-                        <div className="h-10 flex items-center justify-center font-bold text-blue-800">
+                      <div className="bg-blue-200 dark:bg-blue-800/50 p-2">
+                        <div className="h-10 flex items-center justify-center font-bold text-blue-800 dark:text-blue-200">
                           RANK
                         </div>
                         {Object.keys(counselingTimeline).map((rank) => (
-                          <div key={`rank-${rank}`} className="h-10 flex items-center justify-center font-bold text-blue-800">
+                          <div key={`rank-${rank}`} className="h-10 flex items-center justify-center font-bold text-blue-800 dark:text-blue-200">
                             {rank.toUpperCase()}
                           </div>
                         ))}
@@ -116,7 +120,7 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
                         {/* Month headers */}
                         <div className="grid grid-cols-12 gap-0 text-sm">
                           {monthAbbreviations.map((month, i) => (
-                            <div key={`counsel-month-${i}`} className="h-10 border-r border-blue-200 flex items-center justify-center bg-blue-50 font-medium">
+                            <div key={`counsel-month-${i}`} className="h-10 border-r border-blue-200 dark:border-blue-700 flex items-center justify-center bg-blue-50 dark:bg-blue-900/20 font-medium dark:text-blue-200">
                               {month}
                             </div>
                           ))}
@@ -124,11 +128,19 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
                         
                         {/* Timeline rows */}
                         {Object.entries(counselingTimeline).map(([rank, months]) => (
-                          <div key={`counsel-row-${rank}`} className="grid grid-cols-12 gap-0 border-t border-blue-200">
+                          <div key={`counsel-row-${rank}`} className="grid grid-cols-12 gap-0 border-t border-blue-200 dark:border-blue-700">
                             {months.map((active, i) => (
                               <div
                                 key={`counsel-cell-${rank}-${i}`}
-                                className={`h-10 border-r border-blue-200 ${active ? 'bg-blue-500' : 'bg-transparent'} transition-all duration-300 ${active ? 'hover:bg-blue-600' : ''}`}
+                                className={`h-10 border-r border-blue-200 dark:border-blue-700 ${
+                                  active 
+                                    ? 'bg-blue-500 dark:bg-blue-600' 
+                                    : 'bg-transparent'
+                                } transition-all duration-300 ${
+                                  active 
+                                    ? 'hover:bg-blue-600 dark:hover:bg-blue-500' 
+                                    : ''
+                                }`}
                               ></div>
                             ))}
                           </div>
@@ -138,18 +150,18 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
                   </div>
                   
                   {/* Evals Timeline */}
-                  <div className="bg-red-100 rounded-lg overflow-hidden shadow-md">
-                    <div className="bg-red-600 text-white p-3 font-bold text-center text-xl">
+                  <div className="bg-red-100 dark:bg-red-900/30 rounded-lg overflow-hidden shadow-md">
+                    <div className="bg-red-600 dark:bg-red-800 text-white p-3 font-bold text-center text-xl">
                       EVALS
                     </div>
                     <div className="grid grid-cols-[150px_1fr] gap-0">
                       {/* Left column for rank labels */}
-                      <div className="bg-red-200 p-2">
-                        <div className="h-10 flex items-center justify-center font-bold text-red-800">
+                      <div className="bg-red-200 dark:bg-red-800/50 p-2">
+                        <div className="h-10 flex items-center justify-center font-bold text-red-800 dark:text-red-200">
                           RANK
                         </div>
                         {Object.keys(evalsTimeline).map((rank) => (
-                          <div key={`eval-rank-${rank}`} className="h-10 flex items-center justify-center font-bold text-red-800">
+                          <div key={`eval-rank-${rank}`} className="h-10 flex items-center justify-center font-bold text-red-800 dark:text-red-200">
                             {rank.toUpperCase()}
                           </div>
                         ))}
@@ -160,7 +172,7 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
                         {/* Month headers */}
                         <div className="grid grid-cols-12 gap-0 text-sm">
                           {monthAbbreviations.map((month, i) => (
-                            <div key={`eval-month-${i}`} className="h-10 border-r border-red-200 flex items-center justify-center bg-red-50 font-medium">
+                            <div key={`eval-month-${i}`} className="h-10 border-r border-red-200 dark:border-red-700 flex items-center justify-center bg-red-50 dark:bg-red-900/20 font-medium dark:text-red-200">
                               {month}
                             </div>
                           ))}
@@ -168,11 +180,19 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
                         
                         {/* Timeline rows */}
                         {Object.entries(evalsTimeline).map(([rank, months]) => (
-                          <div key={`eval-row-${rank}`} className="grid grid-cols-12 gap-0 border-t border-red-200">
+                          <div key={`eval-row-${rank}`} className="grid grid-cols-12 gap-0 border-t border-red-200 dark:border-red-700">
                             {months.map((active, i) => (
                               <div
                                 key={`eval-cell-${rank}-${i}`}
-                                className={`h-10 border-r border-red-200 ${active ? 'bg-red-500' : 'bg-transparent'} transition-all duration-300 ${active ? 'hover:bg-red-600' : ''}`}
+                                className={`h-10 border-r border-red-200 dark:border-red-700 ${
+                                  active 
+                                    ? 'bg-red-500 dark:bg-red-600' 
+                                    : 'bg-transparent'
+                                } transition-all duration-300 ${
+                                  active 
+                                    ? 'hover:bg-red-600 dark:hover:bg-red-500' 
+                                    : ''
+                                }`}
                               ></div>
                             ))}
                           </div>
@@ -185,7 +205,7 @@ export const TemplateSchedulingTab: React.FC<TabProps> = () => {
                 <DialogFooter className="mt-6">
                   <Button
                     onClick={() => setOpen(false)}
-                    className="w-full sm:w-auto"
+                    className="w-full sm:w-auto dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white"
                   >
                     Close
                   </Button>
