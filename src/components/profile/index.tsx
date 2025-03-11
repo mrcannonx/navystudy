@@ -145,12 +145,15 @@ export function ProfileForm() {
       console.log('[Profile Update] Using updateUserProfile to update profile')
       
       try {
+        console.log('[Profile Update] Calling updateUserProfile with data:', JSON.stringify(profileData));
+        
         // Use the AuthContext's updateUserProfile method
         const updateSuccess = await updateUserProfile(profileData)
         
         clearTimeout(saveTimeout) // Clear the safety timeout
         
         if (!updateSuccess) {
+          console.error('[Profile Update] Update returned false');
           throw new Error('Failed to update profile')
         }
         
@@ -165,6 +168,7 @@ export function ProfileForm() {
         router.push('/profile')
       } catch (updateError) {
         clearTimeout(saveTimeout) // Clear the safety timeout
+        console.error('[Profile Update] Error details:', updateError);
         throw updateError
       }
     } catch (error) {

@@ -297,24 +297,33 @@ async function _updateProfile(userId: string, profileData: Partial<Profile>): Pr
     try {
       console.log('[ProfileService] Mapping rank to navy_rank_id:', dbUpdateData.rank);
       
-      // Get the corresponding navy rank from navy_rank_levels table using the rank code
-      console.log('[ProfileService] Looking up rank code in navy_rank_levels:', dbUpdateData.rank);
-      const { data: navyRankData, error: navyRankError } = await supabase
-        .from("navy_rank_levels")
-        .select('id')
-        .eq('name', dbUpdateData.rank)  // The name field in navy_rank_levels contains E1, E2, etc.
-        .single();
-
-      if (navyRankError) {
-        console.warn('[ProfileService] Error fetching navy rank:', navyRankError);
-        // Don't delete navy_rank_id here, we'll set it to null later if needed
-      } else if (navyRankData) {
-        console.log('[ProfileService] Setting navy_rank_id to:', navyRankData.id);
-        dbUpdateData.navy_rank_id = navyRankData.id;
+      // First, verify if the rank code exists in NAVY_RANKS
+      const isValidRank = NAVY_RANKS.some(rank => rank.code === dbUpdateData.rank);
+      if (!isValidRank) {
+        console.warn('[ProfileService] Invalid rank code provided:', dbUpdateData.rank);
+        delete dbUpdateData.navy_rank_id;
+        delete dbUpdateData.rank;
       } else {
-        console.warn('[ProfileService] No active navy rank found for rank:', dbUpdateData.rank);
-        // Set navy_rank_id to null explicitly to clear any existing value
-        dbUpdateData.navy_rank_id = null;
+        // Get the corresponding navy rank from navy_rank_levels table using the rank code
+        console.log('[ProfileService] Looking up rank code in navy_rank_levels:', dbUpdateData.rank);
+        const { data: navyRankData, error: navyRankError } = await supabase
+          .from("navy_rank_levels")
+          .select('id')
+          .eq('name', dbUpdateData.rank)  // The name field in navy_rank_levels contains E1, E2, etc.
+          .single();
+
+        if (navyRankError) {
+          console.warn('[ProfileService] Error fetching navy rank:', navyRankError);
+          delete dbUpdateData.navy_rank_id;
+        } else if (navyRankData) {
+          // Instead of trying to verify if the ID exists (which might fail due to permissions),
+          // we'll set it and let the database constraint handle it with our retry mechanism
+          console.log('[ProfileService] Setting navy_rank_id to:', navyRankData.id);
+          dbUpdateData.navy_rank_id = navyRankData.id;
+        } else {
+          console.warn('[ProfileService] No active navy rank found for rank:', dbUpdateData.rank);
+          delete dbUpdateData.navy_rank_id;
+        }
       }
     } catch (error) {
       console.warn('[ProfileService] Error in rank mapping process:', error);
@@ -330,6 +339,11 @@ async function _updateProfile(userId: string, profileData: Partial<Profile>): Pr
   delete dbUpdateData.insignia_url;
   delete dbUpdateData.exam_info;
   
+  // Ensure preferences is an object if it exists
+  if (dbUpdateData.preferences && typeof dbUpdateData.preferences !== 'object') {
+    dbUpdateData.preferences = {};
+  }
+  
   // Remove any null foreign keys
   if (dbUpdateData.navy_rank_id === null) {
     delete dbUpdateData.navy_rank_id;
@@ -341,25 +355,66 @@ async function _updateProfile(userId: string, profileData: Partial<Profile>): Pr
   console.log('[ProfileService] Final update data:', dbUpdateData);
 
   try {
-    const { data: updatedProfile, error: updateError } = await supabase
-      .from('profiles')
-      .update(dbUpdateData)
-      .eq('id', userId)
-      .select()
-      .single();
+    console.log('[ProfileService] Executing database update with data:', JSON.stringify(dbUpdateData));
+    
+    let result;
+    try {
+      const { data: updatedProfile, error: updateError } = await supabase
+        .from('profiles')
+        .update(dbUpdateData)
+        .eq('id', userId)
+        .select()
+        .single();
 
-    if (updateError) {
+      if (updateError) {
+        // Check if this is a foreign key constraint error for navy_rank_id
+        if (updateError.code === '23503' &&
+            updateError.message?.includes('foreign key constraint') &&
+            updateError.message?.includes('navy_rank_id')) {
+          
+          console.warn('[ProfileService] Foreign key constraint error for navy_rank_id, retrying without it');
+          
+          // Remove the problematic navy_rank_id and retry
+          delete dbUpdateData.navy_rank_id;
+          
+          // Retry the update without the navy_rank_id
+          const { data: retryProfile, error: retryError } = await supabase
+            .from('profiles')
+            .update(dbUpdateData)
+            .eq('id', userId)
+            .select()
+            .single();
+            
+          if (retryError) {
+            console.error('[ProfileService] Retry update failed:', retryError);
+            throw retryError;
+          }
+          
+          result = retryProfile;
+        } else {
+          console.error('[ProfileService] Profile update failed:', updateError);
+          console.error('[ProfileService] Update data that caused error:', JSON.stringify(dbUpdateData));
+          throw updateError;
+        }
+      } else {
+        result = updatedProfile;
+      }
+    } catch (updateError) {
       console.error('[ProfileService] Profile update failed:', updateError);
+      console.error('[ProfileService] Update data that caused error:', JSON.stringify(dbUpdateData));
       throw updateError;
     }
 
-    if (!updatedProfile) {
+    if (!result) {
+      console.error('[ProfileService] No profile data returned after update');
       throw new Error('Profile update returned no data');
     }
 
-    return await _enrichProfileData(updatedProfile);
+    console.log('[ProfileService] Profile update successful, enriching data');
+    return await _enrichProfileData(result);
   } catch (error) {
     console.error('[ProfileService] Profile update failed:', error);
+    console.error('[ProfileService] Update data that caused error:', JSON.stringify(dbUpdateData));
     throw error;
   }
 }

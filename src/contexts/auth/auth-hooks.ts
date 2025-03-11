@@ -414,6 +414,7 @@ export function useProfileOperations(
     
     try {
       authLogger.info('Updating user profile for:', user.id)
+      authLogger.info('Update data:', JSON.stringify(data))
       
       // Store the update time to prevent cascading profile fetches
       storeProfileUpdateTimestamp()
@@ -423,7 +424,7 @@ export function useProfileOperations(
         authLogger.info('Updating auth metadata with new full name')
         
         const { error: updateUserError } = await supabase.auth.updateUser({
-          data: { 
+          data: {
             full_name: data.full_name,
             // Include other metadata that might be useful
             rank: data.rank,
@@ -439,26 +440,37 @@ export function useProfileOperations(
         }
       }
       
-      authLogger.info('Updating profile data in database')
-      const profile = await updateProfile(user.id, data)
+      // Ensure preferences is an object if it exists
+      if (data.preferences && typeof data.preferences !== 'object') {
+        authLogger.warn('Invalid preferences format, resetting to empty object')
+        data.preferences = {}
+      }
       
-      if (profile) {
-        authLogger.info('Profile updated successfully:', {
-          id: profile.id,
-          hasNavyRank: !!profile.navy_rank_url,
-          hasExamInfo: !!profile.exam_info
-        })
+      authLogger.info('Updating profile data in database')
+      try {
+        const profile = await updateProfile(user.id, data)
         
-        // Update the profile state directly to avoid another fetch
-        setProfile(profile)
-        
-        // Update the timestamp again after successful update
-        storeProfileUpdateTimestamp()
-        
-        return true
-      } else {
-        authLogger.error('No profile returned after update')
-        return false
+        if (profile) {
+          authLogger.info('Profile updated successfully:', {
+            id: profile.id,
+            hasNavyRank: !!profile.navy_rank_url,
+            hasExamInfo: !!profile.exam_info
+          })
+          
+          // Update the profile state directly to avoid another fetch
+          setProfile(profile)
+          
+          // Update the timestamp again after successful update
+          storeProfileUpdateTimestamp()
+          
+          return true
+        } else {
+          authLogger.error('No profile returned after update')
+          return false
+        }
+      } catch (updateError) {
+        authLogger.error('Profile update service call failed:', updateError)
+        throw updateError
       }
     } catch (error) {
       authLogger.error('Profile update failed:', error)

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Loader2, Trophy, BookOpen, Brain, FileText, LineChart, BarChart3, Map } from "lucide-react"
+import { Loader2, Trophy, BookOpen, Brain, FileText, LineChart, BarChart3 } from "lucide-react"
 import { useAuth } from "@/contexts/auth"
 import { useTheme } from "@/contexts/theme-context"
 import { Container } from "@/components/ui/container"
@@ -187,7 +187,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 [&>*]:h-full">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 [&>*]:h-full">
                         <QuickActionCard
                             title="Study Flashcards"
                             description="Review and memorize key concepts"
@@ -215,13 +215,6 @@ export default function DashboardPage() {
                             icon={<BarChart3 className="h-6 w-6" />}
                             href={{ pathname: "/eval-template-builder" }}
                             color="orange"
-                        />
-                        <QuickActionCard
-                            title="Career Roadmap"
-                            description="Plan your Navy career progression"
-                            icon={<Map className="h-6 w-6" />}
-                            href={{ pathname: "/career-roadmap" }}
-                            color="indigo"
                         />
                     </div>
 
