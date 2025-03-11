@@ -1,42 +1,36 @@
-import { Redis } from '@upstash/redis'
-
-// Initialize Redis client
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-})
+// In-memory cache implementation
+const cache = new Map<string, { summary: string, timestamp: number }>();
+const CACHE_EXPIRY = 3600000; // 1 hour in milliseconds
 
 export class SummarizerCache {
   private static async generateKey(text: string): Promise<string> {
-    const encoder = new TextEncoder()
-    const data = encoder.encode(text)
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
-    return `summary:${hashArray.map(b => b.toString(16).padStart(2, '0')).join('')}`
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return `summary:${hashArray.map(b => b.toString(16).padStart(2, '0')).join('')}`;
   }
 
   static async get(text: string): Promise<string | null> {
-    const key = await this.generateKey(text)
-    return redis.get(key) as Promise<string | null>
+    const key = await this.generateKey(text);
+    const cached = cache.get(key);
+    
+    if (!cached) return null;
+    
+    // Check if cached item has expired
+    if (Date.now() - cached.timestamp > CACHE_EXPIRY) {
+      cache.delete(key);
+      return null;
+    }
+    
+    return cached.summary;
   }
 
   static async set(text: string, summary: string): Promise<void> {
-    const key = await this.generateKey(text)
-    await redis.set(key, summary, {
-      ex: 3600 // 1 hour expiry
-    })
-  }
-
-  static async trackProgress(requestId: string, progress: number): Promise<void> {
-    const key = `progress:${requestId}`
-    await redis.set(key, progress, {
-      ex: 300 // 5 minutes expiry
-    })
-  }
-
-  static async getProgress(requestId: string): Promise<number> {
-    const key = `progress:${requestId}`
-    const progress = await redis.get<number>(key)
-    return progress ?? 0
+    const key = await this.generateKey(text);
+    cache.set(key, {
+      summary,
+      timestamp: Date.now()
+    });
   }
 }
